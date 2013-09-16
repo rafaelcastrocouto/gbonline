@@ -1,4 +1,4 @@
-# OnlineGB
+# GBOnline
 ============
 
 GameBoy emulator online 

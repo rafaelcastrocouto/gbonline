@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Squada One';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Squada One'), local('SquadaOne-Regular'), url('Squada One.woff') format('woff');
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -25,7 +32,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;      
-    background: url(http://cdn.twitrcovers.com/wp-content/uploads/2012/09/Gameboy.jpg);
+    background: url(Gameboy.jpg);
     background-size: auto 100%;
 }
 ol, ul {
@@ -58,7 +65,7 @@ html, body {
 	border-radius: 10px 10px 77px 10px ;
 	background-image: -webkit-linear-gradient( #ADB6B3, #BEC2C1 50%);
 	background-image: linear-gradient( #ADB6B3, #BEC2C1 50%);
-	box-shadow: -5px 6px 20px rgba(0, 0, 0, 0.37),
+	box-shadow: 5px 6px 20px rgba(0, 0, 0, 0.37),
 	-21px 17px 65px rgba(0, 0, 0, 0.46),
 	inset -3px 0 4px #8E918E,
 	inset -7px 0 7px #DFDFDF,
@@ -157,7 +164,7 @@ html, body {
 	border-top: 1px solid #394b21;
 	border-right: 1px solid #36472f;
 	background: #5f953d;
-	box-shadow: inset -2px 5px 10px #2a421a;
+	box-shadow: inset -1px 2px 6px #2a421a;
 	opacity: .5;
 }
 
@@ -220,6 +227,16 @@ html, body {
 	margin-bottom: 17px;
 }
 
+.buttons li span {
+	transform: rotate(-90deg) translate(-8px,40px) scaleY(0.5);
+}
+
+.buttons li span, .buttons-2 li span {
+    font-family: 'Squada One';
+    position: absolute;
+    color: #666;
+}
+
 .buttons-2 {
     position: absolute;
 	top: 348px;
@@ -228,6 +245,7 @@ html, body {
 }
 
 .buttons-2 li {
+    cursor: pointer;
 	position: absolute;
 	width: 9px;
 	height: 34px;
@@ -243,6 +261,10 @@ html, body {
 	position: absolute;
 	bottom: 7px;
 	left: 20px;	
+}
+
+.buttons-2 li span {
+	transform: rotate(-90deg) translate(-8px,0) scaleY(0.5);
 }
 
 .speacker {
@@ -275,7 +297,7 @@ html, body {
 .stick ul {
     cursor: pointer;
 } 
-.top {
+.up {
 	position: absolute;
     top: 15px;
     left: 34px;
@@ -289,7 +311,7 @@ html, body {
 	-4px 2px 7px rgba(96, 99, 98, 0.64);
 }
 
-.top li {
+.up li {
 	margin: 2px;
 	width: 20px;
 	height: 2px;
@@ -298,7 +320,7 @@ html, body {
 	box-shadow: inset 0 -1px 1px #494C4B;
 }
 
-.left {
+.right {
 	position: absolute;
 	top: 36px;
 	left: 56px;
@@ -312,7 +334,7 @@ html, body {
 	transform: rotate(90deg);
 }
 
-.left li {
+.right li {
 	margin: 2px;
 	width: 20px;
 	height: 2px;
@@ -321,7 +343,7 @@ html, body {
 	box-shadow: inset 0 -1px 1px #494C4B;	
 }
 
-.bottom {
+.down {
 	position: absolute;
 	top: 58px;
     left: 34px;
@@ -334,7 +356,7 @@ html, body {
 	box-shadow: -5px 0px 6px #606362;
 }
 
-.bottom li {
+.down li {
 	margin: 2px;
 	width: 20px;
 	height: 2px;
@@ -343,7 +365,7 @@ html, body {
 	box-shadow: inset 0 -1px 1px #343839;	
 }
 
-.right {
+.left {
 	position: absolute;
 	top: 36px;
 	left: 12px;
@@ -359,7 +381,7 @@ html, body {
 	transform: rotate(90deg);
 }
 
-.right li {
+.left li {
 	margin: 2px;
 	width: 20px;
 	height: 2px;
@@ -464,6 +486,7 @@ html, body {
 
 .box input, .IB strong {
   display: block;
+  padding: 4px;
 }
 
 .box input {

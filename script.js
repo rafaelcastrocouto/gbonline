@@ -44,7 +44,7 @@ function sp(s,l){
 }
 
 // Get element from id
-function $(id){return document.getElementById(id);}
+function ID(id){return document.getElementById(id);}
 
 // Get milliseconds from the UNIX epoch
 function get_ms(){return new Date().getTime();}
@@ -58,7 +58,6 @@ function printObj(o) {
   for (var p in o) s+=p+" = "+o[p]+"\n" ;
   return s ;
 }
-
 
 /* 
  * scrollbar.js v0.1 - A simple scrollbar for JavaScript
@@ -92,7 +91,7 @@ function dragMachine(dragid,onchange) {
   d.objY=0;
 //d.oldX=0;
   d.oldY=0;
-  d.obj=$(dragid);
+  d.obj=ID(dragid);
   d.maxY=0;
   d.minY=0;
 //d.posX=0;  
@@ -154,20 +153,22 @@ function scrollBar(parent,onchange) {
   scb.dragger = null;
   
   scb.update=function(){
-    $(scb.backid).style.height=$(scb.parentid).clientHeight+'px';
-    scb.dragger.maxY=$(scb.parentid).clientHeight-$(scb.dragid).clientHeight-4;
-    $(scb.dragid).style.top=Math.round(scb.dragger.maxY*scb.dragger.posY)+'px';
+    ID(scb.backid).style.height=ID(scb.parentid).clientHeight+'px';
+    scb.dragger.maxY=ID(scb.parentid).clientHeight-ID(scb.dragid).clientHeight-4;
+    ID(scb.dragid).style.top=Math.round(scb.dragger.maxY*scb.dragger.posY)+'px';
   };    
 
   (scb.create=function(){
-    $(scb.parentid).className='SCROLLBAR';
-    $(scb.parentid).innerHTML=
+    ID(scb.parentid).className='SCROLLBAR';
+    ID(scb.parentid).innerHTML=
       '<div id="'+scb.backid+'" class="BACKGROUND">'+
       '<div id="'+scb.dragid+'" class="DRAG"></div></div>';
     scb.dragger = new dragMachine(scb.dragid,onchange);
-    $(scb.dragid).addEventListener("mousedown", scb.dragger.drag, true);
+    ID(scb.dragid).addEventListener("mousedown", scb.dragger.drag, true);
   })(); 
 }
+
+
 /*
  * jsgb.cpu.js v0.021 - GB CPU Emulator for JSGB, a JavaScript GameBoy Emulator
  * Copyright (C) 2009 Pedro Ladaria <Sonic1980 at Gmail dot com>
@@ -1683,7 +1684,7 @@ function MEMW(a,v) {
       // write to 2000-3FFF: select ROM bank
       case 2:
       case 3: 
-        //$('STATUS').innerHTML='Select ROM Bank: '+(v&31);
+        //ID('STATUS').innerHTML='Select ROM Bank: '+(v&31);
         gbROMBankSwitch(v&31);
         return;
       // write to 6000-7FFF: select MBC1 mode
@@ -1693,7 +1694,7 @@ function MEMW(a,v) {
         return;
       // unhandled cases
       default:
-        //$('STATUS').innerHTML='Unhandled MBC1 ROM write:\naddr: '+hex4(a)+' - val: '+hex2(v);
+        //ID('STATUS').innerHTML='Unhandled MBC1 ROM write:\naddr: '+hex4(a)+' - val: '+hex2(v);
         return;
       }
     default:
@@ -1960,7 +1961,7 @@ function gbROMBankSwitch(bank) {
        XXXX1010 into 0000-1FFF area.
        Disabling a RAM bank probably protects that bank from false writes
        during power down of the GameBoy. (NOTE: Nintendo
-       suggests values $0A to enable and $00 to disable
+       suggests values ID0A to enable and ID00 to disable
        RAM bank!!)
        
       If memory model is set to 16/8 mode: [0]
@@ -2075,55 +2076,80 @@ function gb_Read_Joypad(v) {
   }
 }
     
+
+//PRESS
+function UP_DOWN() {     gbPin14&=0xFB; MEMW(_IF_,gbRegIF|16);} 
+function DOWN_DOWN() {   gbPin14&=0xF7; MEMW(_IF_,gbRegIF|16);} 
+function LEFT_DOWN() {   gbPin14&=0xFD; MEMW(_IF_,gbRegIF|16);} 
+function RIGHT_DOWN() {  gbPin14&=0xFE; MEMW(_IF_,gbRegIF|16);} 
+function A_DOWN() {      gbPin15&=0xFE; MEMW(_IF_,gbRegIF|16);} 
+function B_DOWN() {      gbPin15&=0xFD; MEMW(_IF_,gbRegIF|16);} 
+function START_DOWN() {  gbPin15&=0xF7; MEMW(_IF_,gbRegIF|16);} 
+function SELECT_DOWN() { gbPin15&=0xFB; MEMW(_IF_,gbRegIF|16);} 
+//RELEASE
+function DOWN_UP() {     gbPin14|=8;    MEMW(_IF_,gbRegIF|16);}
+function UP_UP() {       gbPin14|=4;    MEMW(_IF_,gbRegIF|16);}
+function LEFT_UP() {     gbPin14|=2;    MEMW(_IF_,gbRegIF|16);}
+function RIGHT_UP() {    gbPin14|=1;    MEMW(_IF_,gbRegIF|16);}
+function A_UP() {        gbPin15|=1;    MEMW(_IF_,gbRegIF|16);}
+function B_UP() {        gbPin15|=2;    MEMW(_IF_,gbRegIF|16);}
+function START_UP() {    gbPin15|=8;    MEMW(_IF_,gbRegIF|16);}
+function SELECT_UP() {   gbPin15|=4;    MEMW(_IF_,gbRegIF|16);}
+
 function gb_OnKeyDown_Event(e) {
-  //$('DEBUG').innerHTML=document.title=e.which;  
   switch (e.which) {
-    // down
-    case 40: gbPin14&=0xF7; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;
-    // up
-    case 38: gbPin14&=0xFB; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;
-    // left
-    case 37: gbPin14&=0xFD; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;
-    // right
-    case 39: gbPin14&=0xFE; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;    
-    // start
-    case 65: gbPin15&=0xF7; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;
-    // select
-    case 83: gbPin15&=0xFB; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;
-    // button B
-    case 90: gbPin15&=0xFD; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;
-    // button A
-    case 88: gbPin15&=0xFE; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;
+    case 40: DOWN_DOWN(); break; 
+    case 38: UP_DOWN(); break;     
+    case 37: LEFT_DOWN(); break;   
+    case 39: RIGHT_DOWN(); break;     
+    case 65: START_DOWN(); break;  
+    case 83: SELECT_DOWN(); break; 
+    case 90: B_DOWN(); break; 
+    case 88: A_DOWN(); break; 
   }
+  e.preventDefault(); return;
 }
 
 function gb_OnKeyUp_Event(e) {
   switch (e.which) {
-    // down
-    case 40: gbPin14|=8; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;
-    // up
-    case 38: gbPin14|=4; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;
-    // left
-    case 37: gbPin14|=2; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;
-    // right
-    case 39: gbPin14|=1; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;
-    // start
-    case 65: gbPin15|=8; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;
-    // select
-    case 83: gbPin15|=4; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;
-    // button B
-    case 90: gbPin15|=2; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;
-    // button A
-    case 88: gbPin15|=1; MEMW(_IF_,gbRegIF|16); e.preventDefault(); return;
+    case 40: DOWN_UP(); break;  
+    case 38: UP_UP(); break;  
+    case 37: LEFT_UP(); break;  
+    case 39: RIGHT_UP(); break;  
+    case 65: START_UP(); break;  
+    case 83: SELECT_UP(); break; 
+    case 90: B_UP(); break;  
+    case 88: A_UP(); break;  
   }
+  e.preventDefault(); return;
 }
 
 function gb_Init_Input() {
   document.onkeydown = gb_OnKeyDown_Event;
   document.onkeyup = gb_OnKeyUp_Event;
+  $('.stick .up').on('mousedown', UP_DOWN)
+                 .on('mouseup mouseout', UP_UP);
+  $('.stick .down').on('mousedown', DOWN_DOWN)
+                   .on('mouseup mouseout', DOWN_UP);
+  $('.stick .right').on('mousedown', RIGHT_DOWN)
+                    .on('mouseup mouseout', RIGHT_UP);
+  $('.stick .left').on('mousedown', LEFT_DOWN)
+                   .on('mouseup mouseout', LEFT_UP);
+  $('.buttons .A_button').on('mousedown', A_DOWN)
+                         .on('mouseup mouseout', A_UP);
+  $('.buttons .B_button').on('mousedown', B_DOWN)
+                         .on('mouseup mouseout', B_UP);
+  $('.buttons-2 .select').on('mousedown', SELECT_DOWN)
+                         .on('mouseup mouseout', SELECT_UP);
+  $('.buttons-2 .start').on('mousedown', START_DOWN)
+                        .on('mouseup mouseout', START_UP);
+  
   gbPin14=0xEF;
   gbPin15=0xDF;
 }  
+
+
+
 /* 
  * jsgb.lcd.js v0.02 - LCD controller emulation for JSGB, a JS GameBoy Emulator
  * Copyright (C) 2009 Pedro Ladaria <Sonic1980 at Gmail dot com>
@@ -2461,7 +2487,7 @@ function gb_Draw_Scanline() {
 function gb_Init_LCD() {
   gbScanlineCycles = 0;
   // init LCD Screen variables
-  gbLCDObj=$('LCD');
+  gbLCDObj=ID('LCD');
   gbLCDCtx=gbLCDObj.getContext('2d');
   gbLCDCtx.width=160;
   gbLCDCtx.height=144;
@@ -2633,35 +2659,32 @@ var gbIsBreakpoint = false;
 function gb_Dump_All() {
   gb_Dump_CPU();
   gb_Dump_IORegs();
-  //asmScroll.dragger.posY*(0xFFFF-dump_asm_h+1)
   asmScroll.dragger.setpos(0,((PC-10<0)?0:(PC-10))/(0xFFFF-dump_asm_h+1));
   gb_Dump_ASM();
   gb_Dump_Mem();
   memScroll.update();
   asmScroll.update();
-  //gb_Dump_Background();
-  //dump_sp();
   gb_Dump_Cartridge_info();
 }
 
 // CPU //
 
 function gb_Dump_CPU() {
-  $('RA').innerHTML='A: '+zf(hex(RA),2)+br+sp(zf(bin(RA),8),4);
-  $('RB').innerHTML='B: '+zf(hex(RB),2)+br+sp(zf(bin(RB),8),4);
-  $('RC').innerHTML='C: '+zf(hex(RC),2)+br+sp(zf(bin(RC),8),4);
-  $('RD').innerHTML='D: '+zf(hex(RD),2)+br+sp(zf(bin(RD),8),4);
-  $('RE').innerHTML='E: '+zf(hex(RE),2)+br+sp(zf(bin(RE),8),4);
-  $('HL').innerHTML='&nbsp;HL: '+zf(hex(HL),4)+br+sp(zf(bin(HL),16),4);
-  $('SP').innerHTML='&nbsp;SP: '+zf(hex(SP),4)+br+sp(zf(bin(SP),16),4);
-  $('PC').innerHTML='&nbsp;PC: '+zf(hex(PC),4)+br+sp(zf(bin(PC),16),4);
-  $('RF').innerHTML='Z:'+(FZ*1)+' N:'+(FN*1)+'<br/'+'>H:'+(FH*1)+' C:'+(FC*1);
+  ID('RA').innerHTML='A: '+zf(hex(RA),2)+br+sp(zf(bin(RA),8),4);
+  ID('RB').innerHTML='B: '+zf(hex(RB),2)+br+sp(zf(bin(RB),8),4);
+  ID('RC').innerHTML='C: '+zf(hex(RC),2)+br+sp(zf(bin(RC),8),4);
+  ID('RD').innerHTML='D: '+zf(hex(RD),2)+br+sp(zf(bin(RD),8),4);
+  ID('RE').innerHTML='E: '+zf(hex(RE),2)+br+sp(zf(bin(RE),8),4);
+  ID('HL').innerHTML='&nbsp;HL: '+zf(hex(HL),4)+br+sp(zf(bin(HL),16),4);
+  ID('SP').innerHTML='&nbsp;SP: '+zf(hex(SP),4)+br+sp(zf(bin(SP),16),4);
+  ID('PC').innerHTML='&nbsp;PC: '+zf(hex(PC),4)+br+sp(zf(bin(PC),16),4);
+  ID('RF').innerHTML='Z:'+(FZ*1)+' N:'+(FN*1)+'<br/'+'>H:'+(FH*1)+' C:'+(FC*1);
 }
 
 // SPECIAL REGISTERS //
 
 function gb_Dump_IORegs() {
-  $('SPRDUMP').innerHTML=
+  ID('SPRDUMP').innerHTML=
     'FF00:P1&nbsp; &nbsp;'+sp(zf(bin(gbMemory[0xFF00]),8),4)+br+
     'FF04:DIV&nbsp; '     +gbMemory[0xFF04]+'=0x'+zf(hex(gbMemory[0xFF04]),2)+br+
     'FF05:TIMA '          +gbMemory[0xFF05]+'=0x'+zf(hex(gbMemory[0xFF05]),2)+br+
@@ -2727,7 +2750,7 @@ function gb_Dump_Mem() {
     s+=br;
     of+=w;
   }
-  $('MEMDUMP').innerHTML=s;
+  ID('MEMDUMP').innerHTML=s;
 }
 
 // DISASSEMBLER + BREAKPOINTS STUFF //
@@ -2823,7 +2846,7 @@ function gb_Dump_ASM() {
     PC++;
   }
 //else s+='<div>&nbsp;</div>\n';
-  $('ASMDUMP').innerHTML=s;  
+  ID('ASMDUMP').innerHTML=s;  
 
   PC=oPC;
 }
@@ -2832,9 +2855,9 @@ function gb_Dump_ASM() {
 
 function gb_Dump_Background() {
   //gb_Draw_Background();
-  $('BG_CANVAS').width=512;  
-  $('BG_CANVAS').height=512;  
-  var bgctx = $('BG_CANVAS').getContext('2d');
+  ID('BG_CANVAS').width=512;  
+  ID('BG_CANVAS').height=512;  
+  var bgctx = ID('BG_CANVAS').getContext('2d');
   var img = bgctx.getImageData(0,0,512,512);
 
   var k = 0;
@@ -2864,7 +2887,7 @@ function gb_Dump_Background() {
   b=(gbMemory[_LCDC_]>>0)&1;
   s+='bit0='+b+'; Display = '+((b==0)?'off':'on')+br;
   
-  $('BG_INFO').innerHTML=s;
+  ID('BG_INFO').innerHTML=s;
     
 }
 
@@ -2883,24 +2906,9 @@ function gb_Dump_Cartridge_info() {
   s+= 'RAM Size: '+br+gbROMInfo.RAMBanks+' banks: ';
   s+= (gbROMInfo.RAMBanks*32)+' Kb';
   
-  $('ROM_INFO').innerHTML = s;
+  ID('ROM_INFO').innerHTML = s;
 }
 
-// SPRITES //
-/*
-function dump_sp() {
-  var b=0;
-  var s='Sprite info @ LCDC Reg'+br;
-
-  b=(gbMemory[_LCDC_]>>2)&1;
-  s+='bit2='+b+'; OBJ size='+((b==0)?'8x8':'8x16')+br;
-
-  b=(gbMemory[_LCDC_]>>1)&1;
-  s+='bit1='+b+'; OBJ display='+((b==1)?'On':'Off')+br;
-
-  $('SP_INFO').innerHTML=s;
-}
-*/
 // COMMON //
 
 var memScroll;
@@ -2909,7 +2917,7 @@ var gbDebuggerInitiated = false;
 
 function gb_Init_Debugger() {
   if (!gbDebuggerInitiated) {
-    $('DEBUGGER').innerHTML=gbDebuggerControls;
+    ID('DEBUGGER').innerHTML=gbDebuggerControls;
     memScroll = new scrollBar('MEMSCROLL',gb_Dump_Mem);
     asmScroll = new scrollBar('ASMSCROLL',gb_Dump_ASM);
     gbDebuggerInitiated = true;
@@ -3044,9 +3052,9 @@ function gb_Step(){
 function gb_Run() {
   if (!gbPause) return;
   gbPause=false;
-  $('BR').disabled=1;
-  $('BP').disabled=0;
-  $('BS').disabled=1;
+  ID('BR').disabled=1;
+  ID('BP').disabled=0;
+  ID('BS').disabled=1;
   gbFpsInterval=setInterval(gb_Show_Fps,1000);
   gbRunInterval=setInterval(gb_Frame,16);
 }
@@ -3054,12 +3062,12 @@ function gb_Run() {
 function gb_Pause() {
   if (gbPause) return;
   gbPause=true;
-  $('BR').disabled=0;
-  $('BP').disabled=1;
-  $('BS').disabled=0;
+  ID('BR').disabled=0;
+  ID('BP').disabled=1;
+  ID('BS').disabled=0;
   clearInterval(gbRunInterval);
   clearInterval(gbFpsInterval);
-  $('STATUS').innerHTML='Pause';
+  ID('STATUS').innerHTML='Pause';
   gb_Dump_All();        
 }
 
@@ -3076,8 +3084,8 @@ function gb_Insert_Cartridge(fileName, Start) {
   gb_ROM_Load('roms/'+fileName);
   
   gb_Dump_All();
-  if (Start) $('BR').onclick();
-  else $('BP').onclick();
+  if (Start) ID('BR').onclick();
+  else ID('BP').onclick();
 }
 
 var gbSeconds = 0;
@@ -3092,30 +3100,24 @@ function gb_Resize_LCD() {
       '-moz-transform: translateX('+130*r+'px) translateY('+230*r+'px) scale('+s+'); '+
       '-o-transform: translateX('+130*r+'px) translateY('+230*r+'px) scale('+s+');}';
   };
-  if ($('BX').value=='Size x2') {
-    $('BX').value='Size x3';
-    $('gbstyle').innerHTML = t(2);
-    //$('LCD').style.width='320px';
-    //$('LCD').style.height='288px';
+  if (ID('BX').value=='Size x2') {
+    ID('BX').value='Size x3';
+    ID('gbstyle').innerHTML = t(2);
   }
-  else if ($('BX').value=='Size x3') {
-    $('BX').value='Size x1';
-    $('gbstyle').innerHTML = t(3);
-    //$('LCD').style.width='480px';
-    //$('LCD').style.height='432px';
+  else if (ID('BX').value=='Size x3') {
+    ID('BX').value='Size x1';
+    ID('gbstyle').innerHTML = t(3);
   }
   else {
-    $('BX').value='Size x2';
-    $('gbstyle').innerHTML = t(1);
-    //$('LCD').style.width='160px';
-    //$('LCD').style.height='144px';
+    ID('BX').value='Size x2';
+    ID('gbstyle').innerHTML = t(1);
   }
 }
 
 function gb_Show_Fps() {
   gbFrames+=gbFPS;
   gbSeconds++;
-  $('STATUS').innerHTML = 
+  ID('STATUS').innerHTML = 
     'Running: '+gbFPS+' '+
     'fps - Average: '+(gbFrames/gbSeconds).toFixed(2)+' - '+
     'Bank switches/s: '+gbBankSwitchCount;
@@ -3124,13 +3126,12 @@ function gb_Show_Fps() {
 }
 
 function gb_Toggle_Debugger(show) {
-  $('DEBUGGER').style.display=(show)?'block':'none';
+  ID('DEBUGGER').style.display=(show)?'block':'none';
 }
 
 window.onload = function() {
-  gb_Insert_Cartridge($('CARTRIDGE').value, false);
-  gb_Toggle_Debugger($('TOGGLE_DEBUGGER').checked);
-  gb_Run();
+  gb_Insert_Cartridge(ID('CARTRIDGE').value, false);
+  gb_Toggle_Debugger(ID('TOGGLE_DEBUGGER').checked);
   gb_Run();
 }
 
