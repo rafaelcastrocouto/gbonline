@@ -2127,22 +2127,24 @@ function gb_OnKeyUp_Event(e) {
 function gb_Init_Input() {
   document.onkeydown = gb_OnKeyDown_Event;
   document.onkeyup = gb_OnKeyUp_Event;
-  $('.stick .up').on('mousedown', UP_DOWN)
-                 .on('mouseup mouseout', UP_UP);
-  $('.stick .down').on('mousedown', DOWN_DOWN)
-                   .on('mouseup mouseout', DOWN_UP);
-  $('.stick .right').on('mousedown', RIGHT_DOWN)
-                    .on('mouseup mouseout', RIGHT_UP);
-  $('.stick .left').on('mousedown', LEFT_DOWN)
-                   .on('mouseup mouseout', LEFT_UP);
-  $('.buttons .A_button').on('mousedown', A_DOWN)
-                         .on('mouseup mouseout', A_UP);
-  $('.buttons .B_button').on('mousedown', B_DOWN)
-                         .on('mouseup mouseout', B_UP);
-  $('.buttons-2 .select').on('mousedown', SELECT_DOWN)
-                         .on('mouseup mouseout', SELECT_UP);
-  $('.buttons-2 .start').on('mousedown', START_DOWN)
-                        .on('mouseup mouseout', START_UP);
+  var DOWN_EVENTS = 'mousedown touchstart',
+      UP_EVENTS = 'mouseup mouseout touchend touchleave';
+  $('.stick .up').on(DOWN_EVENTS, UP_DOWN)
+                 .on(UP_EVENTS, UP_UP);
+  $('.stick .down').on(DOWN_EVENTS, DOWN_DOWN)
+                   .on(UP_EVENTS, DOWN_UP);
+  $('.stick .right').on(DOWN_EVENTS, RIGHT_DOWN)
+                    .on(UP_EVENTS, RIGHT_UP);
+  $('.stick .left').on(DOWN_EVENTS, LEFT_DOWN)
+                   .on(UP_EVENTS, LEFT_UP);
+  $('.buttons .A_button').on(DOWN_EVENTS, A_DOWN)
+                         .on(UP_EVENTS, A_UP);
+  $('.buttons .B_button').on(DOWN_EVENTS, B_DOWN)
+                         .on(UP_EVENTS, B_UP);
+  $('.buttons-2 .select').on(DOWN_EVENTS, SELECT_DOWN)
+                         .on(UP_EVENTS, SELECT_UP);
+  $('.buttons-2 .start').on(DOWN_EVENTS, START_DOWN)
+                        .on(UP_EVENTS, START_UP);
   
   gbPin14=0xEF;
   gbPin15=0xDF;
