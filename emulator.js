@@ -44,7 +44,15 @@ function sp(s,l){
 }
 
 // Get element from id
-function ID(id){return document.getElementById(id);}
+var id_cache = {};
+function ID(id){
+  if(id_cache[id]) return id_cache[id];
+  else {
+    var e = document.getElementById(id)
+    id_cache[id] = e;
+    return e;
+  }
+}
 
 // Get milliseconds from the UNIX epoch
 function get_ms(){return new Date().getTime();}
@@ -83,7 +91,7 @@ function printObj(o) {
  * .SCROLLBAR > .BACKGROUND > .DRAG
  */
  
-function dragMachine(dragid,onchange) {
+function dragMachine(dragid, onchange) {
   var d=this;
 //d.startX=0;
   d.startY=0;
@@ -168,6 +176,47 @@ function scrollBar(parent,onchange) {
   })(); 
 }
 
+(function($) {
+    $.fn.drags = function(opt) {
+
+        opt = $.extend({handle:"",cursor:"move"}, opt);
+
+        if(opt.handle === "") {
+            var $el = this;
+        } else {
+            var $el = this.find(opt.handle);
+        }
+
+        return $el.css('cursor', opt.cursor).on("mousedown", function(e) {
+            if(opt.handle === "") {
+                var $drag = $(this).addClass('draggable');
+            } else {
+                var $drag = $(this).addClass('active-handle').parent().addClass('draggable');
+            }
+            var z_idx = $drag.css('z-index'),
+                drg_h = $drag.outerHeight(),
+                drg_w = $drag.outerWidth(),
+                pos_y = $drag.offset().top + drg_h - e.pageY,
+                pos_x = $drag.offset().left + drg_w - e.pageX;
+            $drag.css('z-index', 1000).parents().on("mousemove", function(e) {
+                $('.draggable').offset({
+                    top:e.pageY + pos_y - drg_h,
+                    left:e.pageX + pos_x - drg_w
+                }).on("mouseup", function() {
+                    $(this).removeClass('draggable').css('z-index', z_idx);
+                });
+            });
+            e.preventDefault(); // disable selection
+        }).on("mouseup", function() {
+            if(opt.handle === "") {
+                $(this).removeClass('draggable');
+            } else {
+                $(this).removeClass('active-handle').parent().removeClass('draggable');
+            }
+        });
+
+    }
+})(jQuery);
 
 /*
  * jsgb.cpu.js v0.021 - GB CPU Emulator for JSGB, a JavaScript GameBoy Emulator
@@ -1474,7 +1523,7 @@ var gbDAATable= [ // DDA code from VisualBoyAdvance
   0x8A70,0x8B70,0x8C70,0x8D70,0x8E70,0x8F70,0x9050,0x9150,
   0x9250,0x9350,0x9450,0x9550,0x9650,0x9750,0x9850,0x9950];
 /* 
- * jsgb.debugger.js v0.02 - Memory module for JSGB, a GameBoy Emulator
+ * jsgb.memory.js v0.02 - Memory module for JSGB, a GameBoy Emulator
  * Copyright (C) 2009 Pedro Ladaria <Sonic1980 at Gmail dot com>
  *
  * This program is free software; you can redistribute it and/or
@@ -3042,6 +3091,7 @@ function gb_Frame() {
       gb_Toggle_Debugger(true);
     }  
   }
+  if (!gbPause) requestAnimationFrame(gb_Frame);
 }
 
 function gb_Step(){
@@ -3051,23 +3101,46 @@ function gb_Step(){
   gb_Dump_All();
 }
 
+//// requestAnimationFrame polyfill
+
+var lastTime = 0;
+var vendors = ['ms', 'moz', 'webkit', 'o'];
+for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+    window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+    window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
+                               || window[vendors[x]+'CancelRequestAnimationFrame'];
+}
+
+if (!window.requestAnimationFrame)
+    window.requestAnimationFrame = function(callback, element) {
+        var currTime = new Date().getTime();
+        var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+        var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+          timeToCall);
+        lastTime = currTime + timeToCall;
+        return id;
+    };
+
+if (!window.cancelAnimationFrame)
+    window.cancelAnimationFrame = function(id) {
+        clearTimeout(id);
+    };
+
+/////////
+
 function gb_Run() {
   if (!gbPause) return;
   gbPause=false;
-  ID('BR').disabled=1;
-  ID('BP').disabled=0;
   ID('BS').disabled=1;
   gbFpsInterval=setInterval(gb_Show_Fps,1000);
-  gbRunInterval=setInterval(gb_Frame,16);
+  gbRunInterval=requestAnimationFrame(gb_Frame);
 }
 
 function gb_Pause() {
   if (gbPause) return;
   gbPause=true;
-  ID('BR').disabled=0;
-  ID('BP').disabled=1;
   ID('BS').disabled=0;
-  clearInterval(gbRunInterval);
+  cancelAnimationFrame(gbRunInterval);
   clearInterval(gbFpsInterval);
   ID('STATUS').innerHTML='Pause';
   gb_Dump_All();        
@@ -3086,9 +3159,18 @@ function gb_Insert_Cartridge(fileName, Start) {
   gb_ROM_Load('roms/'+fileName);
   
   gb_Dump_All();
-  if (Start) ID('BR').onclick();
-  else ID('BP').onclick();
+  if (Start) gb_Run();
+  else gb_Pause();
 }
+
+      /////////////
+      /* SOUNDS  */
+      /////////////
+
+var audioData = [];
+
+      /////////////
+
 
 var gbSeconds = 0;
 var gbFrames  = 0;
@@ -3096,7 +3178,7 @@ var gbFrames  = 0;
 function gb_Resize_LCD() {
   var t = function(s){
     var r = s - 1;
-    return  '.gameboy { '+
+    return  '.container { '+
       'transform: translateX('+130*r+'px) translateY('+230*r+'px) scale('+s+'); '+
       '-webkit-transform: translateX('+130*r+'px) translateY('+230*r+'px) scale('+s+'); '+
       '-moz-transform: translateX('+130*r+'px) translateY('+230*r+'px) scale('+s+'); '+
@@ -3135,5 +3217,34 @@ window.onload = function() {
   gb_Insert_Cartridge(ID('CARTRIDGE').value, false);
   gb_Toggle_Debugger(ID('TOGGLE_DEBUGGER').checked);
   gb_Run();
+  $('.container').drags();
+  
+  setTimeout(function(){
+    ID('load').style['display'] = 'none';
+    
+    /////EVENTS
+    
+    $('#CARTRIDGE').on('change', function(){
+      gb_Insert_Cartridge(this.value,true);
+    });
+    $('#BS').on('change', function(){
+     gb_Insert_Cartridge($("CARTRIDGE").value,true);
+    });
+    $('#BP').on('click', function(){
+      if (!gbPause) {
+        this.value = 'Run';
+        $('.LCDdisplay').css('opacity', 0.8);
+        gb_Pause();
+      }
+      else {
+        this.value = 'Pause';
+        $('.LCDdisplay').css('opacity', 0.4);
+        gb_Run();
+      }
+    });    
+    ID('BX').disabled = 0;
+    $('#BX').on('click', gb_Resize_LCD );
+    
+  }, 5001);
 }
 

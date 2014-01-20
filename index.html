@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+  <head>    
     <title>GBOnline</title>
     <meta name="Author" content="rafaelcastrocouto" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -8,14 +8,14 @@
     <meta http-equiv="content-style-type" content="text/css" />
     <link href="style.css" rel="stylesheet" type="text/css" /> 
   </head>
-  <body>
-    <div class='box'>
-      <select id="CARTRIDGE" rows="1" onchange="gb_Insert_Cartridge(this.value,true);">
+  <body>    
+    <div class="ui">
+      <select id="CARTRIDGE" rows="1">
         <option value="mario.gb">Mario Land</option>
         <option value="tetris.gb">Tetris</option>
         <option value="drmario.gb">Dr. Mario</option>
         <option value="bomberman.gb">Bomberman</option>
-        <option value="kirbys.gb">Kirby's Dream Land</option>
+        <option value="kirbys.gb">Kirby"s Dream Land</option>
         <option value="space_invaders.gb">Space Invaders</option>
         <option value="motocross.gb">Motocross Maniacs</option>
         <option value="bombjack.gb">Bomb Jack</option>
@@ -26,12 +26,10 @@
         <option value="serpent.gb">Serpent</option>
         <option value="centipede.gb">Centipede</option>  
       </select>
-      <input id="BR" type="button" value="Run"   onfocus="this.blur();" onclick="gb_Run();"/>
-      <input id="BP" type="button" value="Pause" onfocus="this.blur();" disabled onclick="gb_Pause();"/>
-      <input id="BST" type="button" value="Step"  onfocus="this.blur();" onclick="gb_Step();"/>
-      <input id="BS" type="button" value="Reset"  onfocus="this.blur();" onclick="gb_Insert_Cartridge($('CARTRIDGE').value,true);"/>
-      <input id="BX" type="button" value="Size x2" onfocus="this.blur();" onclick="gb_Resize_LCD();"/>
-      <style id='gbstyle'> .gameboy { transform: scale(1); } </style>
+      <input id="BP" type="button" value="Pause"/>
+      <input id="BST" type="button" value="Step" onclick="gb_Step();"/>
+      <input id="BS" type="button" value="Reset" disabled/>
+      <input id="BX" type="button" value="Size x2"/ disabled><style id="gbstyle"> .container { transform: scale(1); } </style>
       <div id="FOOTER" class="CLR C">
         <div class="IB">
           <strong>Controls: </strong>
@@ -47,44 +45,77 @@
       <label id="TOGGLE_DEBUGGER_LABEL" for="TOGGLE_DEBUGGER">debugger</label>
       <div id="DEBUGGER"></div>
       <div id="DEBUG">&nbsp;</div>
-    </div>
-    
-    <div class="gameboy">
-      <hr class="l-1">
-      <hr class="l-2">
-      <hr class="l-3">
-      <hr class="l-4">
-      <hr class="l-5">
-      <hr class="l-6">
-      <hr class="l-7">
-      <hr class="l-8">
-      <p>dot matrix whith stereo sound</p>
-      <div class="reflex">
-        <div class="LCDdisplay"></div>
-        <canvas id="LCD" width='160' height='144'></canvas>
-        <span class='diod'></span>   
-      </div>
-      <ul class="buttons">
-        <li class="A_button"><span>A</span></li>
-        <li class="B_button"><span>B</span></li>
-      </ul>
-      <ul class="buttons-2">
-        <li class='select'><span>SELECT</span></li>
-        <li class='start'><span>START</span></li>
-      </ul>
-      <ul class="speacker"><li></li><li></li><li></li><li></li><li></li><li></li></ul>
-      <div class="stick">
-        <ul class='left'><li></li><li></li><li></li><li></li><li></li></ul>
-        <ul class='right'><li></li><li></li><li></li><li></li><li></li></ul>
-        <ul class='circle'><li></li></ul>
-        <ul class='up'><li></li><li></li><li></li><li></li><li></li></ul>
-        <ul class='down'><li></li><li></li><li></li><li></li><li></li></ul>    
+    </div>    
+    <div class="container">           
+      <div id="gameboy">
+        <div class="power"></div>
+        <hr class="l-1">
+        <hr class="l-2">
+        <hr class="l-3">
+        <hr class="l-4">
+        <hr class="l-5">
+        <hr class="l-6">
+        <hr class="l-7">
+        <hr class="l-8">
+        <p>dot matrix whith stereo sound</p>
+        <div class="reflex">
+          <div class="LCDdisplay"></div>
+          <canvas id="LCD" width="160" height="144"></canvas>
+          <span class="diod"></span>   
+        </div>
+        <ul class="buttons">
+          <li class="A_button"><span>A</span></li>
+          <li class="B_button"><span>B</span></li>
+        </ul>
+        <ul class="buttons-2">
+          <li class="select"><span>SELECT</span></li>
+          <li class="start"><span>START</span></li>
+        </ul>
+        <ul class="speacker"><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+        <div class="stick">
+          <ul class="left"><li></li><li></li><li></li><li></li><li></li></ul>
+          <ul class="right"><li></li><li></li><li></li><li></li><li></li></ul>
+          <ul class="circle"><li></li></ul>
+          <ul class="up"><li></li><li></li><li></li><li></li><li></li></ul>
+          <ul class="down"><li></li><li></li><li></li><li></li><li></li></ul>    
+        </div>      
       </div>      
-    </div>
-    
+      <div id="load">
+        <div id="back"></div>
+        <div id="border"></div>
+        <div id="card3"></div>
+        <div id="card2"></div>
+        <div id="chip2"></div>
+        <div id="screenBack"></div>
+        <div id="card1"></div>
+        <div id="speaker"></div>
+        <div id="chip"></div>
+        <div id="chipPinL"></div>
+        <div id="chipPinR"></div>
+        <div id="ec1"></div>
+        <div id="volumeWheelBack"></div>
+        <div id="volumeWheel"></div>
+        <div id="joystickBack"></div>
+        <div id="buttonsABBack"></div>
+        <div id="buttonsSSBack"></div>
+        <div id="jackBack"></div>
+        <div id="jack"></div>
+        <div id="ec2"></div>
+        <div id="powerBack"></div>
+        <div id="power"></div>
+        <div id="box"></div>
+        <div id="screen"></div>
+        <div id="screen2"></div>
+        <div id="joystickCross1"></div>
+        <div id="joystickCross2"></div>
+        <div id="buttonsSS"></div>
+        <div id="buttonsAB"></div>
+        <div id="powerLed"></div>
+        <div id="speakerFilter"></div>
+      </div>      
+    </div>    
     <script src="prefixfree.min.js"></script>
     <script src="jquery.js"></script>
-    <script src="script.js"></script>
-    
+    <script src="emulator.js"></script>    
   </body>
 </html>

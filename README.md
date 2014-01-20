@@ -9,6 +9,8 @@ GameBoy emulator online
   
   Emulator: http://www.codebase.es/jsgb/
   
-  Style: http://codepen.io/AntonEssenetial/pen/trlfu
+  Style: http://codepen.io/AntonEssenetial/detais/trlfu
+  
+  Load Animation: http://codepen.io/heero/details/wylhv
 
 Autor: rafaelcastrocouto

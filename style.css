@@ -31,6 +31,12 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 	line-height: 1;      
     background: url(Gameboy.jpg);
     background-size: auto 100%;
@@ -56,8 +62,15 @@ body, input, select {
 html, body {
   height: 100%;
 }
-.gameboy {
-    float: left;
+.container {
+  position: relative;
+  float: left;
+  height: 500px;
+  width: 324px;
+  transition: all 1s;
+}  
+#gameboy {    
+    position: absolute;
 	width: 265px;
 	height: 433px;
     margin: 2em;
@@ -75,7 +88,7 @@ html, body {
 	inset 0 4px 10px white;
 }
 
-.gameboy p {
+#gameboy p {
 	position: absolute;
 	top: 45px;
 	left: 70px;
@@ -84,6 +97,16 @@ html, body {
 	text-transform: uppercase;
 	font-size: 7px;
 	font-family: "Arial";
+}
+
+.power {
+  background-color: #494949;
+  border-radius: 8px 8px 0px 0px / 4px 4px 0px 0px;
+  width: 16px;
+  height: 5px;
+  position: absolute;
+  left: 30px;
+  top: -6px;
 }
 
 .reflex {
@@ -165,7 +188,7 @@ html, body {
 	border-right: 1px solid #36472f;
 	background: #5f953d;
 	box-shadow: inset -1px 2px 6px #2a421a;
-	opacity: .5;
+	opacity: 0.4;
 }
 
 #LCD {
@@ -466,7 +489,7 @@ html, body {
 
 }
 
-.box {
+.ui {
   float: left;
   border-radius: 0.5em 0.5em 3em 0.5em;
   background: rgba(0,0,0,0.3);
@@ -484,11 +507,1033 @@ html, body {
   text-shadow: 0 1px 1px black;
 }
 
-.box input, .IB strong {
+.ui input, .IB strong {
   display: block;
   padding: 4px;
 }
 
-.box input {
+.ui input {
   width: 13em;
+}
+
+#gameboy {
+  animation: gameboyAnim 5s;
+  opacity: 1;
+}
+
+@keyframes gameboyAnim {
+  0% {
+    opacity: 0;
+  }
+  90% {
+    opacity: 0;
+  }  
+  100% {
+    opacity: 1;
+  }
+}
+
+#load {
+  position: absolute;
+  width: 130px;
+  height: 220px;
+  top: 120px; left: 100px;
+  transform: scale(2.13);
+  animation: loadAnim 5s;
+  opacity: 0;
+}
+
+@keyframes loadAnim {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }  
+  100% {
+    opacity: 0;
+  }
+}
+
+#back {
+  position: absolute;
+  bottom: 0px;
+  background-color: #c1bdb7;
+  animation: backAnim 5s;
+  height: 206px;
+  width: 125px;
+  border-radius: 3px 3px 35px 3px;  
+}
+
+@keyframes backAnim {
+  0% {
+    width: 8px;
+    height: 68px;
+  }
+
+  4% {
+    width: 100px;
+    height: 75px;
+  }
+
+  5% {
+    width: 125px;
+    height: 80px;
+    border-radius: 3px 3px 20px 3px;
+  }
+
+  11%, 100% {
+    height: 206px;
+    width: 125px;
+    border-radius: 3px 3px 35px 3px;
+  }
+}
+
+#speaker {
+  position: absolute;
+  background-color: #646060;
+  animation: speakerAnim 5s;
+  width: 30px;
+  height: 30px;
+  bottom: 10px;
+  left: 82px;
+  border-radius: 15px;
+  box-shadow: inset 0px 0px 0px 8px #484848;  
+}
+
+@keyframes speakerAnim {
+  0%, 6% {
+    width: 0px;
+    height: 0px;
+    bottom: 22px;
+    left: 103px;
+  }
+
+  11% {
+    width: 30px;
+    height: 30px;
+    bottom: 10px;
+    left: 82px;
+    border-radius: 15px;
+    box-shadow: inset 0px 0px 0px 15px #484848;
+  }
+
+  14%, 100% {
+    width: 30px;
+    height: 30px;
+    bottom: 10px;
+    left: 82px;
+    border-radius: 15px;
+    box-shadow: inset 0px 0px 0px 8px #484848;
+  }
+}
+
+#card1 {
+  position: absolute;
+  left: 15px;
+  background-color: #5eaf89;
+  animation: card1Anim 5s;
+  height: 113px;
+  width: 95px;
+  bottom: 17px;  
+}
+
+@keyframes card1Anim {
+  0%, 8% {
+    height: 0px;
+    width: 0px;
+    bottom: 64px;
+  }
+
+  9% {
+    height: 17px;
+    width: 15px;
+    bottom: 64px;
+  }
+
+  12% {
+    height: 113px;
+    width: 15px;
+    bottom: 17px;
+  }
+
+  18%, 100% {
+    height: 113px;
+    width: 95px;
+    bottom: 17px;
+  }
+}
+
+#border {
+  position: absolute;
+  bottom: 2px;
+  right: 7px;
+  border: 2px solid #646060;
+  border-radius: 3px 3px 35px 3px;
+  animation: borderAnim 5s;
+  height: 198px;
+  width: 117px;
+  border: 2px solid #646060;  
+}
+
+@keyframes borderAnim {
+  0%, 8% {
+    height: 0px;
+    width: 0px;
+    border: none;
+  }
+
+  9% {
+    height: 40px;
+    width: 10px;
+    border-right: 2px solid #646060;
+    border-bottom: 2px solid #646060;
+    border-top: none;
+    border-left: none;
+  }
+
+  13% {
+    height: 40px;
+    width: 117px;
+    border-right: 2px solid #646060;
+    border-bottom: 2px solid #646060;
+    border-top: none;
+    border-left: none;
+  }
+
+  17%, 100% {
+    height: 198px;
+    width: 117px;
+    border-right: 2px solid #646060;
+    border-left: 2px solid #646060;
+    border-bottom: 2px solid #646060;
+    border-top: none;
+  }
+
+  18%, 100% {
+    height: 198px;
+    width: 117px;
+    border: 2px solid #646060;
+  }
+}
+
+#card2 {
+  position: absolute;
+  bottom: 6px;
+  left: 7px;
+  width: 10px;
+  height: 20px;
+  background-color: #646060;
+  animation: card2Anim 5s;
+  height: 20px;
+  width: 78px;  
+}
+
+@keyframes card2Anim {
+  0%, 12% {
+    height: 0px;
+    width: 0px;
+  }
+
+  13% {
+    height: 20px;
+    width: 10px;
+  }
+
+  21%, 100% {
+    height: 20px;
+    width: 78px;
+  }
+}
+
+#card3 {
+  position: absolute;
+  bottom: 48px;
+  left: 8px;
+  height: 5px;
+  background-color: #3c9b66;
+  animation: card3Anim 5s;
+  height: 150px;
+  width: 110px;  
+}
+
+@keyframes card3Anim {
+  0%, 12% {
+    height: 0px;
+    width: 0px;
+  }
+
+  15% {
+    height: 5px;
+    width: 110px;
+  }
+
+  23%, 100% {
+    height: 150px;
+    width: 110px;
+  }
+}
+
+#chip {
+  position: absolute;
+  background-color: #484848;
+  animation: chipAnim 5s;
+  height: 22px;
+  width: 22px;
+  bottom: 77px;
+  left: 45px;  
+}
+
+@keyframes chipAnim {
+  0%, 15% {
+    height: 0px;
+    width: 0px;
+  }
+
+  16% {
+    height: 4px;
+    width: 4px;
+    bottom: 86px;
+    left: 54px;
+  }
+
+  20%, 100% {
+    height: 22px;
+    width: 22px;
+    bottom: 77px;
+    left: 45px;
+  }
+}
+
+#chip2 {
+  position: absolute;
+  background-color: #484848;
+  animation: chip2Anim 5s;
+  height: 12px;
+  width: 60px;
+  bottom: 160px;
+  left: 32px;  
+}
+
+@keyframes chip2Anim {
+  0%, 16% {
+    height: 0px;
+    width: 0px;
+  }
+
+  17% {
+    height: 12px;
+    width: 4px;
+    bottom: 132px;
+    left: 60px;
+  }
+
+  23% {
+    height: 12px;
+    width: 60px;
+    bottom: 132px;
+    left: 32px;
+  }
+
+  30%, 100% {
+    height: 12px;
+    width: 60px;
+    bottom: 160px;
+    left: 32px;
+  }
+}
+
+#volumeWheelBack {
+  position: absolute;
+  left: 108px;
+  bottom: 157px;
+  width: 10px;
+  height: 10px;
+  background-color: #645d5f;
+  animation: volumeWheelBackAnim 5s;
+  height: 10px;
+  width: 10px;
+  left: 108px;
+  bottom: 167px;  
+}
+
+@keyframes volumeWheelBackAnim {
+  0%, 17% {
+    height: 0px;
+    width: 0px;
+    left: 113px;
+    bottom: 162px;
+  }
+
+  21%, 25% {
+    height: 10px;
+    width: 10px;
+    left: 108px;
+    bottom: 157px;
+  }
+
+  30%, 100% {
+    height: 10px;
+    width: 10px;
+    left: 108px;
+    bottom: 167px;
+  }
+}
+
+#volumeWheel {
+  position: absolute;
+  left: 108px;
+  bottom: 157px;
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background-color: #b2aea9;
+  box-shadow: inset 0px 0px 0px 5px #dddddd;
+  animation: volumeWheelAnim 5s;
+  box-shadow: inset 0px 0px 0px 5px #dddddd;
+}
+
+@keyframes volumeWheelAnim {
+  0%, 18% {
+    height: 1px;
+    width: 1px;
+    left: 115px;
+    bottom: 159px;
+    box-shadow: inset 0px 0px 0px 10px #dddddd;
+  }
+
+  22% {
+    height: 16px;
+    width: 16px;
+    left: 110px;
+    bottom: 154px;
+    box-shadow: inset 0px 0px 0px 10px #dddddd;
+  }
+
+  25% {
+    height: 16px;
+    width: 16px;
+    left: 110px;
+    bottom: 154px;
+    box-shadow: inset 0px 0px 0px 5px #dddddd;
+  }
+
+  30%, 100% {
+    height: 16px;
+    width: 16px;
+    left: 110px;
+    bottom: 164px;
+    box-shadow: inset 0px 0px 0px 5px #dddddd;
+  }
+}
+
+#chipPinL {
+  position: absolute;
+  left: 43px;
+  bottom: 94px;
+  width: 4px;
+  height: 2px;
+  background-color: #dddddd;
+  box-shadow: 0px 3px #dddddd;
+  animation: chipPinAnimL 5s;
+  box-shadow: 0px 3px #dddddd, 0px 6px #dddddd, 0px 9px #dddddd, 0px 12px #dddddd, 0px 15px #dddddd;
+}
+
+@keyframes chipPinAnimL {
+  0%, 19% {
+    width: 0px;
+  }
+
+  20% {
+    width: 4px;
+    box-shadow: 0px 3px #dddddd;
+  }
+
+  21% {
+    box-shadow: 0px 3px #dddddd, 0px 6px #dddddd, 0px 9px #dddddd;
+  }
+
+  22%, 100% {
+    box-shadow: 0px 3px #dddddd, 0px 6px #dddddd, 0px 9px #dddddd, 0px 12px #dddddd, 0px 15px #dddddd;
+  }
+}
+
+#chipPinR {
+  position: absolute;
+  left: 65px;
+  bottom: 94px;
+  width: 4px;
+  height: 2px;
+  background-color: #dddddd;
+  box-shadow: 0px 3px #dddddd;
+  animation: chipPinAnimR 5s;
+  box-shadow: 0px 3px #dddddd, 0px 6px #dddddd, 0px 9px #dddddd, 0px 12px #dddddd, 0px 15px #dddddd;
+}
+
+@keyframes chipPinAnimR {
+  0%, 22% {
+    width: 0px;
+  }
+
+  23% {
+    width: 4px;
+    box-shadow: 0px 3px #dddddd;
+  }
+
+  24% {
+    box-shadow: 0px 3px #dddddd, 0px 6px #dddddd, 0px 9px #dddddd;
+  }
+
+  25%, 100% {
+    box-shadow: 0px 3px #dddddd, 0px 6px #dddddd, 0px 9px #dddddd, 0px 12px #dddddd, 0px 15px #dddddd;
+  }
+}
+
+#ec1 {
+  position: absolute;
+  left: 24px;
+  bottom: 122px;
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: #484848;
+  animation: ec3Anim 5s;
+  box-shadow: 8px 0px #484848, 16px 0px #484848, 24px 0px #484848, 32px 0px #484848, 40px 0px #484848;
+}
+
+@keyframes ec3Anim {
+  0%, 18% {
+    width: 0px;
+  }
+
+  20% {
+    width: 4px;
+    height: 4px;
+  }
+
+  22% {
+    box-shadow: 8px 0px #484848;
+  }
+
+  24% {
+    box-shadow: 8px 0px #484848, 16px 0px #484848;
+  }
+
+  26% {
+    box-shadow: 8px 0px #484848, 16px 0px #484848, 24px 0px #484848;
+  }
+
+  28% {
+    box-shadow: 8px 0px #484848, 16px 0px #484848, 24px 0px #484848, 32px 0px #484848;
+  }
+
+  30%, 100% {
+    box-shadow: 8px 0px #484848, 16px 0px #484848, 24px 0px #484848, 32px 0px #484848, 40px 0px #484848;
+  }
+}
+
+#joystickBack {
+  position: absolute;
+  left: 11px;
+  bottom: 47px;
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  background-color: #dddddd;
+  animation: joystickBackAnim 5s; 
+}
+
+@keyframes joystickBackAnim {
+  0%, 23% {
+    left: 29px;
+    bottom: 65px;
+    width: 0px;
+    height: 0px;
+  }
+
+  28%, 100% {
+    left: 11px;
+    bottom: 47px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+#joystickCross1 {
+  position: absolute;
+  left: 14px;
+  bottom: 60px;
+  width: 30px;
+  height: 10px;
+  border-radius: 1px;
+  background-color: #484848;
+  animation: joystickCrossAnim 5s;
+ 
+}
+
+#joystickCross2 {
+  position: absolute;
+  left: 14px;
+  bottom: 60px;
+  width: 30px;
+  height: 10px;
+  border-radius: 1px;
+  background-color: #484848;
+  transform: rotate(90deg);
+  animation: joystickCrossAnim 5s; 
+}
+
+@keyframes joystickCrossAnim {
+  0%, 26% {
+    left: 29px;
+    bottom: 65px;
+    width: 0px;
+    height: 0px;
+  }
+
+  33%, 100% {
+    left: 14px;
+    bottom: 60px;
+    width: 30px;
+    height: 10px;
+  }
+}
+
+#buttonsABBack {
+  position: absolute;
+  left: 70px;
+  bottom: 58px;
+  width: 50px;
+  height: 22px;
+  border-radius: 11px;
+  background-color: #dddddd;
+  box-shadow: inset 0px 0px 0px 2px #a9a9a9;
+  transform: rotate(152deg);
+  animation: buttonsABBackAnim 5s;
+  box-shadow: inset 0px 0px 0px 2px #a9a9a9;
+}
+
+@keyframes buttonsABBackAnim {
+  0%, 24% {
+    left: 95px;
+    bottom: 67px;
+    width: 0px;
+    height: 0px;
+    transform: rotate(220deg);
+  }
+
+  29% {
+    left: 70px;
+    bottom: 58px;
+    width: 50px;
+    height: 22px;
+    transform: rotate(152deg);
+  }
+
+  33%, 100% {
+    box-shadow: inset 0px 0px 0px 2px #a9a9a9;
+  }
+}
+
+#buttonsAB {
+  position: absolute;
+  left: 78px;
+  bottom: 58px;
+  width: 14px;
+  height: 14px;
+  border-radius: 11px;
+  background-color: #484848;
+  box-shadow: 20px -10px #484848;
+  animation: buttonsABAnim 5s;
+}
+
+@keyframes buttonsABAnim {
+  0%, 28% {
+    left: 81px;
+    bottom: 61px;
+    width: 0px;
+    height: 0px;
+    box-shadow: 20px -10px #484848;
+  }
+
+  33%, 100% {
+    left: 78px;
+    bottom: 58px;
+    width: 14px;
+    height: 14px;
+    box-shadow: 20px -10px #484848;
+  }
+}
+
+#buttonsSSBack {
+  position: absolute;
+  background-color: #dddddd;
+  animation: buttonsSSBackAnim 5s;
+  left: 34px;
+  bottom: 30px;
+  width: 40px;
+  height: 14px;  
+}
+
+@keyframes buttonsSSBackAnim {
+  0%, 27% {
+    left: 30px;
+    bottom: 26px;
+    width: 0px;
+    height: 10px;
+  }
+
+  33%, 100% {
+    left: 34px;
+    bottom: 30px;
+    width: 40px;
+    height: 14px;
+  }
+}
+
+#buttonsSS {
+  position: absolute;
+  border-radius: 2px;
+  background-color: #484848;
+  transform: rotate(152deg);
+  animation: buttonsSSAnim 5s;
+  left: 58px;
+  bottom: 35px;
+  width: 14px;
+  height: 4px;
+  box-shadow: 20px 10px #484848;
+}
+
+@keyframes buttonsSSAnim {
+  0%, 34% {
+    left: 52px;
+    bottom: 31px;
+    width: 0px;
+    height: 0px;
+    box-shadow: 10px 10px #484848;
+  }
+
+  49%, 100% {
+    left: 58px;
+    bottom: 35px;
+    width: 14px;
+    height: 4px;
+    box-shadow: 20px 10px #484848;
+  }
+}
+
+#screenBack {
+  position: absolute;
+  background-color: #dddddd;
+  border-radius: 2px;
+  animation: screenBackAnim 5s;
+  left: 21px;
+  bottom: 125px;
+  width: 84px;
+  height: 64px;  
+}
+
+@keyframes screenBackAnim {
+  0%, 25% {
+    left: 63px;
+    bottom: 125px;
+    width: 0px;
+    height: 64px;
+  }
+
+  31%, 100% {
+    left: 21px;
+    bottom: 125px;
+    width: 84px;
+    height: 64px;
+  }
+}
+
+#screen {
+  position: absolute;
+  background-color: #494949;
+  border-radius: 4px 4px 24px 4px;
+  animation: screenAnim 5s;
+  left: 8px;
+  bottom: 104px;
+  width: 110px;
+  height: 84px;  
+}
+
+@keyframes screenAnim {
+  0%, 28% {
+    left: 68px;
+    bottom: 131px;
+    width: 0px;
+    height: 0px;
+  }
+
+  33%, 36% {
+    left: 26px;
+    bottom: 104px;
+    width: 74px;
+    height: 64px;
+  }
+
+  40%, 42% {
+    bottom: 114px;
+    height: 64px;
+  }
+
+  48%, 100% {
+    left: 8px;
+    bottom: 104px;
+    width: 110px;
+    height: 84px;
+  }
+}
+
+#jackBack {
+  position: absolute;
+  background-color: #646060;
+  animation: jackBackAnim 5s;
+  left: 6px;
+  bottom: 138px;
+  width: 12px;
+  height: 12px;  
+}
+
+@keyframes jackBackAnim {
+  0%, 21% {
+    left: 11px;
+    bottom: 136px;
+    width: 0px;
+    height: 0px;
+  }
+
+  25%, 31% {
+    left: 6px;
+    bottom: 132px;
+    width: 12px;
+    height: 12px;
+  }
+
+  36%, 100% {
+    left: 6px;
+    bottom: 138px;
+    width: 12px;
+    height: 12px;
+  }
+}
+
+#jack {
+  position: absolute;
+  background-color: #494949;
+  border-radius: 7px;
+  animation: jackAnim 5s;
+  left: 1px;
+  bottom: 137px;
+  width: 14px;
+  height: 14px;  
+}
+
+@keyframes jackAnim {
+  0%, 23% {
+    left: 6px;
+    bottom: 135px;
+    width: 0px;
+    height: 0px;
+  }
+
+  27%, 31% {
+    left: 1px;
+    bottom: 131px;
+    width: 14px;
+    height: 14px;
+  }
+
+  36%, 100% {
+    left: 1px;
+    bottom: 137px;
+    width: 14px;
+    height: 14px;
+  }
+}
+
+#screen2 {
+  position: absolute;
+  background-color: #b7b28f;
+  border-radius: 2px;
+  animation: screen2Anim 5s;
+  left: 28px;
+  bottom: 110px;
+  width: 74px;
+  height: 68px;  
+}
+
+@keyframes screen2Anim {
+  0%, 44% {
+    left: 59px;
+    bottom: 151px;
+    width: 0px;
+    height: 0px;
+  }
+
+  48% {
+    bottom: 146px;
+    width: 10px;
+    height: 10px;
+  }
+
+  52% {
+    left: 28px;
+    bottom: 146px;
+    width: 70px;
+    height: 10px;
+  }
+
+  60%, 100% {
+    left: 28px;
+    bottom: 110px;
+    width: 74px;
+    height: 68px; 
+  }
+}
+
+#box {
+  position: absolute;
+  background-color: #BEC2C1;
+  border-radius: 3px 3px 35px 3px;
+  height: 206px;
+  width: 125px;
+  bottom: 0px;
+  animation: boxAnim 5s;
+  height: 206px;
+  width: 125px;
+  bottom: 0px;  
+}
+
+@keyframes boxAnim {
+  0%, 67% {
+    height: 0px;
+    width: 125px;
+    bottom: 206px;
+  }
+
+  80%, 100% {
+    height: 206px;
+    width: 125px;
+    bottom: 0px;
+  }
+}
+
+#powerBack {
+  position: absolute;
+  background-color: #494949;
+  width: 15px;
+  height: 9px;
+  left: 6px;
+  bottom: 197px;
+  animation: powerBackAnim 5s;
+  height: 9px;
+}
+
+@keyframes powerBackAnim {
+  0%, 23% {
+    height: 0px;
+  }
+
+  30%, 100% {
+    height: 9px;
+  }
+}
+
+#power {
+  position: absolute;
+  background-color: #494949;
+  border-radius: 4px 4px 0px 0px / 2px 2px 0px 0px;
+  width: 8px;
+  height: 6px;
+  animation: powerAnim 5s;
+  left: 15px;
+  bottom: 202px;  
+}
+
+@keyframes powerAnim {
+  0%, 42% {
+    visibility: hidden;
+    left: 9px;
+    bottom: 197px;
+  }
+
+  43% {
+    visibility: yes;
+    left: 9px;
+    bottom: 197px;
+  }
+
+  46%, 90% {
+    left: 9px;
+    bottom: 202px;
+  }
+
+  92%, 100% {
+    left: 15px;
+    bottom: 202px;
+  }
+}
+
+#powerLed {
+  position: absolute;
+  background-color: #444;
+  border-radius: 2px;
+  animation: powerLedAnim 5s;
+  background-color: red;
+  width: 5px;
+  height: 5px;
+  left: 14px;
+  bottom: 154px; 
+}
+
+@keyframes powerLedAnim {
+  0%, 49% {
+    width: 0px;
+    height: 0px;
+    left: 16px;
+    bottom: 156px; 
+  }
+
+  52%, 91% {
+    background-color: #444;
+    width: 5px;
+    height: 5px;
+    left: 14px;
+    bottom: 154px; 
+  }
+
+  92%, 100% {
+    background-color: #E4B443;
+    width: 5px;
+    height: 5px;
+    left: 14px;
+    bottom: 154px;
+  }
+}
+
+#speakerFilter {
+  position: absolute;
+  background-color: #555;
+  border-radius: 2px;
+  width: 4px;
+  height: 4px;
+  left: 84px;
+  bottom: 22px;
+  box-shadow: 3px -3px #555, 6px -6px #555, 9px -9px #555, 0px 6px #555,3px 3px #555, 6px 0px #555, 9px -3px #555, 12px -6px #555, 15px -9px #555, 3px 9px #555, 6px 6px #555, 9px 3px #555, 12px 0px #555, 15px -3px #555, 18px -6px #555, 9px 9px #555, 12px 6px #555, 15px 3px #555, 18px 0px #555;
+  animation: speakerFilterAnim 5s;
+  visibility: yes;
+}
+
+@keyframes speakerFilterAnim {
+  0%, 75% {
+    visibility: hidden;
+  }
+
+  76%, 100% {
+    visibility: yes;
+  }
 }
