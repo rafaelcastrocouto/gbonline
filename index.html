@@ -11,7 +11,8 @@
   </head>
   <body>    
     <div class="ui">
-      <b>Games:</b>
+      <b class="handle">+</b>
+      <b>Games</b>
       <div class="game-list">
         <div class="cartridge" value="marioland" title="Mario Land"><img src="img/marioland.jpg"></div>
         <div class="cartridge" value="tetris" title="Tetris"><img src="img/tetris.jpg"></div>
@@ -29,7 +30,7 @@
         <div class="cartridge" value="centipede" title="Centipede"><img src="img/centipede.jpg"></div> 
       </div>
       <div class="CLR">        
-        <b>Controls: </b>
+        <b>Controls</b>
         <div class="IB">
           <span>Arrows: &larr; &uarr; &rarr; &darr;</span>
           <span>X: Button A</span>
@@ -40,7 +41,8 @@
       <input id="BP" type="button" value="Pause" disabled/>
       <input id="BST" type="button" value="Step" onclick="gb_Step();"/>
       <input id="BS" type="button" value="Reset" disabled/>
-      <input id="BX" type="button" value="Size x1.5"/ disabled>
+      <b>Zoom</b>
+      <input id="BX" type="range" name="zoom" min="1" max="500" value="100" disabled>
       </div>
       <div id="STATUS">Pause</div>
       <input id="TOGGLE_DEBUGGER" type="checkbox" onclick="gb_Toggle_Debugger(this.checked);" />

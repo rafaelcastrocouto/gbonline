@@ -25,6 +25,9 @@ time, mark, audio, video {
   font: inherit;
   vertical-align: baseline;
 }
+html, body {
+  height: 100%;
+}
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
@@ -39,6 +42,7 @@ body {
   user-select: none;
   line-height: 1;      
   background: url(img/gameboy-bkg.jpg);
+  background-attachment:fixed;
   background-size: auto 100%;
 }
 ol, ul {
@@ -59,23 +63,30 @@ table {
 body, input, select {
   font-family: monospace;
 }
-html, body {
-  height: 100%;
-}
-
 .game-list {  
   border: 1px solid #444;
   overflow: auto;
   box-shadow: 0 0 6px black inset;
   width: 170px; height: 180px;
   padding: 10px;
+  transition: all 0.2s;
 }
-
+.game-list:hover {  
+  height: 340px;
+}
 .cartridge {
   cursor: pointer;
   background: url(img/cartridge.png);
   background-size: 100%;
   width: 156px; height: 178px;
+  transition: all 0.2s;
+  transform: scale(0.9) rotate(6deg);
+}
+
+.cartridge:hover, .cartridge.active {
+  background-color: rgba(255,255,255,0.5);
+  box-shadow: 0 0 2px 2px white;
+  transform: scale(1);
 }
 
 .cartridge > img {
@@ -90,7 +101,7 @@ html, body {
   width: 324px;  
 }  
 #gameboy {    
-  transition: all 1s;
+  transition: transform 0.4s;
   position: absolute;
   width: 265px;
   height: 433px;
@@ -136,9 +147,17 @@ html, body {
   display: block;
   padding: 4px;
 }
-
+b.handle {
+  color: black;
+  opacity: 0.2;
+  float: right;
+  padding: 0;
+  line-height: 10px;
+  text-shadow: 1px -1px 0 #fff;
+}
 .ui b {
   font-family: 'Squada One';
+  font-size: 22px;
 }
 
 .ui input {

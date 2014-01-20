@@ -3126,6 +3126,8 @@ if (!window.cancelAnimationFrame)
         clearTimeout(id);
     };
 
+
+
 /////////
 
 function gb_Run() {
@@ -3175,7 +3177,7 @@ var audioData = [];
 var gbSeconds = 0;
 var gbFrames  = 0;
 
-function gb_Resize_LCD() {
+function gb_Resize_LCD(zoom) {
   var t = function(s){
     var r = s - 1;
     return  '#gameboy { '+
@@ -3184,18 +3186,7 @@ function gb_Resize_LCD() {
       '-moz-transform: translateX('+130*r+'px) translateY('+230*r+'px) scale('+s+'); '+
       '-o-transform: translateX('+130*r+'px) translateY('+230*r+'px) scale('+s+');}';
   };
-  if (ID('BX').value=='Size x1.5') {
-    ID('BX').value='Size x2';
-    ID('gbstyle').innerHTML = t(1.5);
-  }
-  else if (ID('BX').value=='Size x2') {
-    ID('BX').value='Size x1';
-    ID('gbstyle').innerHTML = t(2);
-  }
-  else {
-    ID('BX').value='Size x1.5';
-    ID('gbstyle').innerHTML = t(1);
-  }
+  ID('gbstyle').innerHTML = t(zoom);
 }
 
 function gb_Show_Fps() {
@@ -3215,21 +3206,31 @@ function gb_Toggle_Debugger(show) {
 
 window.onload = function() {
   gb_Insert_Cartridge('marioland', false);
+  var cartridge = $('.cartridge'),
+      actclass = 'active';
+  cartridge.first().addClass(actclass);
+  cartridge.on('click', function(e){    
+    cartridge.removeClass(actclass);
+    var t = $(this);
+    t.addClass(actclass);
+    gb_Insert_Cartridge(t.attr('value'), true);
+    $('.game-list').scrollTop(0).prepend(t);
+  });  
   gb_Toggle_Debugger(ID('TOGGLE_DEBUGGER').checked);
   gb_Run();
-  $('.container').drags();
   
+  $('.container').drags({handle:'.reflex'});
+  $('.ui').drags({handle:'.handle'});
+  var h = cartridge.height()/2;
+  $('.game-list').scroll(function() {
+    this.scrollTop = parseInt(this.scrollTop / h) * h;
+  });
   setTimeout(function(){
     ID('load').style['display'] = 'none';
     ID('BP').disabled = 0;
     ID('BX').disabled = 0;
     
     /////EVENTS
-    
-    $('.cartridge').on('click', function(e){       
-      gb_Insert_Cartridge($(this).attr('value'), true);
-      
-    });
     
     $('#BP').on('click', function(){
       if (!gbPause) {
@@ -3244,7 +3245,10 @@ window.onload = function() {
       }
     });    
     
-    $('#BX').on('click', gb_Resize_LCD );
+    $('#BX').on('change', function(){     
+      gb_Resize_LCD(this.value/100);
+      
+    });
     
   }, 5001);
 }
