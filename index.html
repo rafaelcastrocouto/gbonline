@@ -7,38 +7,40 @@
     <meta http-equiv="content-script-type" content="text/javascript" />    
     <meta http-equiv="content-style-type" content="text/css" />
     <link href="style.css" rel="stylesheet" type="text/css" /> 
+    <style id="gbstyle"> #gameboy { transform: scale(1); } </style>
   </head>
   <body>    
     <div class="ui">
-      <select id="CARTRIDGE" rows="1">
-        <option value="mario.gb">Mario Land</option>
-        <option value="tetris.gb">Tetris</option>
-        <option value="drmario.gb">Dr. Mario</option>
-        <option value="bomberman.gb">Bomberman</option>
-        <option value="kirbys.gb">Kirby"s Dream Land</option>
-        <option value="space_invaders.gb">Space Invaders</option>
-        <option value="motocross.gb">Motocross Maniacs</option>
-        <option value="bombjack.gb">Bomb Jack</option>
-        <option value="bubble_ghost.gb">Bubble Ghost</option>
-        <option value="boxxle2.gb">Boxxle 2</option>
-        <option value="dropzone.gb">Drop Zone</option>
-        <option value="castelian.gb">Castelian</option>
-        <option value="serpent.gb">Serpent</option>
-        <option value="centipede.gb">Centipede</option>  
-      </select>
-      <input id="BP" type="button" value="Pause"/>
+      <b>Games:</b>
+      <div class="game-list">
+        <div class="cartridge" value="marioland" title="Mario Land"><img src="img/marioland.jpg"></div>
+        <div class="cartridge" value="tetris" title="Tetris"><img src="img/tetris.jpg"></div>
+        <div class="cartridge" value="drmario" title="Dr. Mario"><img src="img/drmario.jpg"></div>
+        <div class="cartridge" value="bomberman" title="Bomberman"><img src="img/bomberman.jpg"></div>
+        <div class="cartridge" value="kirbys" title="Kirby's Dream Land"><img src="img/kirbys.jpg"></div>
+        <div class="cartridge" value="space_invaders" title="Space Invaders"><img src="img/space_invaders.jpg"></div>
+        <div class="cartridge" value="motocross" title="Motocross Maniacs"><img src="img/motocross.jpg"></div>
+        <div class="cartridge" value="bombjack" title="Bomb Jack"><img src="img/bombjack.jpg"></div>
+        <div class="cartridge" value="bubble_ghost" title="Bubble Ghost"><img src="img/bubble_ghost.jpg"></div>
+        <div class="cartridge" value="boxxle2" title="Boxxle 2"><img src="img/boxxle2.jpg"></div>
+        <div class="cartridge" value="dropzone" title="Drop Zone"><img src="img/dropzone.jpg"></div>
+        <div class="cartridge" value="castelian" title="Castelian"><img src="img/castelian.jpg"></div>
+        <div class="cartridge" value="serpent" title="Serpent"><img src="img/serpent.jpg"></div>
+        <div class="cartridge" value="centipede" title="Centipede"><img src="img/centipede.jpg"></div> 
+      </div>
+      <div class="CLR">        
+        <b>Controls: </b>
+        <div class="IB">
+          <span>Arrows: &larr; &uarr; &rarr; &darr;</span>
+          <span>X: Button A</span>
+          <span>Z: Button B</span>
+          <span>A: Start</span>
+          <span>S: Select</span>
+        </div>
+      <input id="BP" type="button" value="Pause" disabled/>
       <input id="BST" type="button" value="Step" onclick="gb_Step();"/>
       <input id="BS" type="button" value="Reset" disabled/>
-      <input id="BX" type="button" value="Size x2"/ disabled><style id="gbstyle"> .container { transform: scale(1); } </style>
-      <div id="FOOTER" class="CLR C">
-        <div class="IB">
-          <strong>Controls: </strong>
-          <strong>Arrows: &larr; &uarr; &rarr; &darr;</strong>
-          <strong>X: Button A</strong>
-          <strong>Z: Button B</strong>
-          <strong>A: Start</strong>
-          <strong>S: Select</strong>
-        </div>
+      <input id="BX" type="button" value="Size x1.5"/ disabled>
       </div>
       <div id="STATUS">Pause</div>
       <input id="TOGGLE_DEBUGGER" type="checkbox" onclick="gb_Toggle_Debugger(this.checked);" />

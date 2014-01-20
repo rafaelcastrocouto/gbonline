@@ -3156,7 +3156,7 @@ function gb_Insert_Cartridge(fileName, Start) {
   gb_Init_Interrupts();
   gb_Init_CPU();
   gb_Init_Input();
-  gb_ROM_Load('roms/'+fileName);
+  gb_ROM_Load('roms/'+fileName+'.gb');
   
   gb_Dump_All();
   if (Start) gb_Run();
@@ -3178,22 +3178,22 @@ var gbFrames  = 0;
 function gb_Resize_LCD() {
   var t = function(s){
     var r = s - 1;
-    return  '.container { '+
+    return  '#gameboy { '+
       'transform: translateX('+130*r+'px) translateY('+230*r+'px) scale('+s+'); '+
       '-webkit-transform: translateX('+130*r+'px) translateY('+230*r+'px) scale('+s+'); '+
       '-moz-transform: translateX('+130*r+'px) translateY('+230*r+'px) scale('+s+'); '+
       '-o-transform: translateX('+130*r+'px) translateY('+230*r+'px) scale('+s+');}';
   };
-  if (ID('BX').value=='Size x2') {
-    ID('BX').value='Size x3';
+  if (ID('BX').value=='Size x1.5') {
+    ID('BX').value='Size x2';
+    ID('gbstyle').innerHTML = t(1.5);
+  }
+  else if (ID('BX').value=='Size x2') {
+    ID('BX').value='Size x1';
     ID('gbstyle').innerHTML = t(2);
   }
-  else if (ID('BX').value=='Size x3') {
-    ID('BX').value='Size x1';
-    ID('gbstyle').innerHTML = t(3);
-  }
   else {
-    ID('BX').value='Size x2';
+    ID('BX').value='Size x1.5';
     ID('gbstyle').innerHTML = t(1);
   }
 }
@@ -3214,22 +3214,23 @@ function gb_Toggle_Debugger(show) {
 }
 
 window.onload = function() {
-  gb_Insert_Cartridge(ID('CARTRIDGE').value, false);
+  gb_Insert_Cartridge('marioland', false);
   gb_Toggle_Debugger(ID('TOGGLE_DEBUGGER').checked);
   gb_Run();
   $('.container').drags();
   
   setTimeout(function(){
     ID('load').style['display'] = 'none';
+    ID('BP').disabled = 0;
+    ID('BX').disabled = 0;
     
     /////EVENTS
     
-    $('#CARTRIDGE').on('change', function(){
-      gb_Insert_Cartridge(this.value,true);
+    $('.cartridge').on('click', function(e){       
+      gb_Insert_Cartridge($(this).attr('value'), true);
+      
     });
-    $('#BS').on('change', function(){
-     gb_Insert_Cartridge($("CARTRIDGE").value,true);
-    });
+    
     $('#BP').on('click', function(){
       if (!gbPause) {
         this.value = 'Run';
@@ -3242,7 +3243,7 @@ window.onload = function() {
         gb_Run();
       }
     });    
-    ID('BX').disabled = 0;
+    
     $('#BX').on('click', gb_Resize_LCD );
     
   }, 5001);
