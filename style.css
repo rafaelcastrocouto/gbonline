@@ -67,8 +67,8 @@ body, input, select {
   border: 1px solid #444;
   overflow: auto;
   box-shadow: 0 0 6px black inset;
-  width: 170px; height: 180px;
-  padding: 10px;
+  width: 180px; height: 180px;
+  padding: 10px; padding-bottom: 80px;
   transition: all 0.2s;
 }
 .game-list:hover {  
@@ -81,11 +81,14 @@ body, input, select {
   width: 156px; height: 178px;
   transition: all 0.2s;
   transform: scale(0.9) rotate(6deg);
+  margin-bottom: 10px;  
 }
 
 .cartridge:hover, .cartridge.active {
-  background-color: rgba(255,255,255,0.5);
-  box-shadow: 0 0 2px 2px white;
+  -webkit-filter: brightness(1.2);
+  filter: brightness(1.2);
+  background-color: rgba(255,255,255,0.2);
+  box-shadow: 0 0 6px rgba(255,255,255,0.2);
   transform: scale(1);
 }
 
@@ -120,6 +123,7 @@ body, input, select {
     inset 0 4px 10px white;
   animation: gameboyAnim 5s;
   opacity: 1;
+  z-index: 1;
 }
 
 @keyframes gameboyAnim {
@@ -141,9 +145,10 @@ body, input, select {
 .ui {
   color: white;
   text-shadow: 0 1px 1px black;
+  box-shadow: 0 0 20px rgba(255,255,255,0.2);
 }
 
-.ui input, .ui b, .ui span {
+.ui input, .ui b {
   display: block;
   padding: 4px;
 }
@@ -164,6 +169,21 @@ b.handle {
   width: 13em;
 }
 
+#IB {
+  height: 80px;
+  column-count: 2;
+  column-rule-width: 0;
+}
+
+#IB > p {
+  cursor: pointer;
+  padding: 2px;
+}
+
+#IB > p.press {
+  color: red;
+}
+
 #load {
   position: absolute;
   width: 130px;
@@ -171,20 +191,9 @@ b.handle {
   top: 120px; left: 100px;
   transform: scale(2.13);
   animation: loadAnim 5s;
-  opacity: 0;
+  z-index: 0;
 }
 
-@keyframes loadAnim {
-  0% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }  
-  100% {
-    opacity: 0;
-  }
-}
 
 #gameboy p {
   position: absolute;
@@ -194,7 +203,7 @@ b.handle {
   color: rgba(255, 255, 255, 0.63);
   text-transform: uppercase;
   font-size: 7px;
-  font-family: "Arial";
+  font-family: "Arial";  
 }
 
 .power {

@@ -2145,30 +2145,62 @@ function B_UP() {        gbPin15|=2;    MEMW(_IF_,gbRegIF|16);}
 function START_UP() {    gbPin15|=8;    MEMW(_IF_,gbRegIF|16);}
 function SELECT_UP() {   gbPin15|=4;    MEMW(_IF_,gbRegIF|16);}
 
+
+var upCode = 38,
+    downCode = 40,
+    leftCode = 37,
+    rightCode = 39,
+    startCode = 65,
+    selectCode = 83,
+    aCode = 88,
+    bCode = 90;
+
+var keySymbols = [];
+keySymbols[38] = '&uarr;';
+keySymbols[40] = '&darr;';
+keySymbols[37] = '&larr;';
+keySymbols[39] = '&rarr;';
+
+var IBp = $('#IB p');
 function gb_OnKeyDown_Event(e) {
+  if(customKeyId) {
+    ID(customKeyId).innerHTML = keySymbols[e.which] || String.fromCharCode(e.which);
+    IBp.removeClass('press');
+    switch(customKeyId){
+      case 'left-input': leftCode = e.which; break;
+      case 'right-input': rightCode = e.which; break;
+      case 'down-input': downCode = e.which; break;
+      case 'up-input': upCode = e.which; break;
+      case 'a-input': aCode = e.which; break;
+      case 'b-input': bCode = e.which; break;
+      case 'start-input': startCode = e.which; break;
+      case 'select-input': selectCode = e.which; break;     
+    }
+    customKeyId = 0;
+  }  
   switch (e.which) {
-    case 40: DOWN_DOWN(); break; 
-    case 38: UP_DOWN(); break;     
-    case 37: LEFT_DOWN(); break;   
-    case 39: RIGHT_DOWN(); break;     
-    case 65: START_DOWN(); break;  
-    case 83: SELECT_DOWN(); break; 
-    case 90: B_DOWN(); break; 
-    case 88: A_DOWN(); break; 
+    case downCode: DOWN_DOWN(); break; 
+    case upCode: UP_DOWN(); break;     
+    case leftCode: LEFT_DOWN(); break;   
+    case rightCode: RIGHT_DOWN(); break;     
+    case startCode: START_DOWN(); break;  
+    case selectCode: SELECT_DOWN(); break; 
+    case bCode: B_DOWN(); break; 
+    case aCode: A_DOWN(); break; 
   }
   e.preventDefault(); return;
 }
 
 function gb_OnKeyUp_Event(e) {
   switch (e.which) {
-    case 40: DOWN_UP(); break;  
-    case 38: UP_UP(); break;  
-    case 37: LEFT_UP(); break;  
-    case 39: RIGHT_UP(); break;  
-    case 65: START_UP(); break;  
-    case 83: SELECT_UP(); break; 
-    case 90: B_UP(); break;  
-    case 88: A_UP(); break;  
+    case downCode: DOWN_UP(); break;  
+    case upCode: UP_UP(); break;  
+    case leftCode: LEFT_UP(); break;  
+    case rightCode: RIGHT_UP(); break;  
+    case startCode: START_UP(); break;  
+    case selectCode: SELECT_UP(); break; 
+    case bCode: B_UP(); break;  
+    case aCode: A_UP(); break;  
   }
   e.preventDefault(); return;
 }
@@ -3134,8 +3166,8 @@ function gb_Run() {
   if (!gbPause) return;
   gbPause=false;
   ID('BS').disabled=1;
-  gbFpsInterval=setInterval(gb_Show_Fps,1000);
-  gbRunInterval=requestAnimationFrame(gb_Frame);
+  if(!gbFpsInterval) gbFpsInterval=setInterval(gb_Show_Fps,1000);
+  if(!gbRunInterval) gbRunInterval=requestAnimationFrame(gb_Frame);
 }
 
 function gb_Pause() {
@@ -3204,8 +3236,23 @@ function gb_Toggle_Debugger(show) {
   ID('DEBUGGER').style.display=(show)?'block':'none';
 }
 
-window.onload = function() {
-  gb_Insert_Cartridge('marioland', false);
+var customKeyId = 0;
+
+window.onload = function() {  
+  gb_Insert_Cartridge($('.cartridge').first().attr('value'), false);  
+  gb_Toggle_Debugger(ID('TOGGLE_DEBUGGER').checked);
+  gb_Run();
+  
+  IBp.on('click', function(){
+    if(customKeyId) {
+      customKeyId = 0;
+      IBp.removeClass('press');
+    } else {
+      var p = $(this), s = p.find('span');
+      p.addClass('press');      
+      customKeyId = s.attr('id');
+      }
+  });
   var cartridge = $('.cartridge'),
       actclass = 'active';
   cartridge.first().addClass(actclass);
@@ -3215,10 +3262,7 @@ window.onload = function() {
     t.addClass(actclass);
     gb_Insert_Cartridge(t.attr('value'), true);
     $('.game-list').scrollTop(0).prepend(t);
-  });  
-  gb_Toggle_Debugger(ID('TOGGLE_DEBUGGER').checked);
-  gb_Run();
-  
+  });
   $('.container').drags({handle:'.reflex'});
   $('.ui').drags({handle:'.handle'});
   var h = cartridge.height()/2;
@@ -3226,7 +3270,7 @@ window.onload = function() {
     this.scrollTop = parseInt(this.scrollTop / h) * h;
   });
   setTimeout(function(){
-    ID('load').style['display'] = 'none';
+    //ID('load').style['display'] = 'none';
     ID('BP').disabled = 0;
     ID('BX').disabled = 0;
     
@@ -3234,7 +3278,7 @@ window.onload = function() {
     
     $('#BP').on('click', function(){
       if (!gbPause) {
-        this.value = 'Run';
+        this.value = 'Play';
         $('.LCDdisplay').css('opacity', 0.8);
         gb_Pause();
       }

@@ -14,6 +14,7 @@
       <b class="handle">+</b>
       <b>Games</b>
       <div class="game-list">
+        <div class="cartridge" value="megaman" title="Megaman"><img src="img/megaman.jpg"></div>
         <div class="cartridge" value="marioland" title="Mario Land"><img src="img/marioland.jpg"></div>
         <div class="cartridge" value="tetris" title="Tetris"><img src="img/tetris.jpg"></div>
         <div class="cartridge" value="drmario" title="Dr. Mario"><img src="img/drmario.jpg"></div>
@@ -31,12 +32,15 @@
       </div>
       <div class="CLR">        
         <b>Controls</b>
-        <div class="IB">
-          <span>Arrows: &larr; &uarr; &rarr; &darr;</span>
-          <span>X: Button A</span>
-          <span>Z: Button B</span>
-          <span>A: Start</span>
-          <span>S: Select</span>
+        <div id="IB" title="Click to customize">
+          <p>Left: <span id="left-input">&larr;</span></p>
+          <p>Right: <span id="right-input">&rarr;</span></p>
+          <p>Up: <span id="up-input">&uarr;</span></p>
+          <p>Down: <span id="down-input">&darr;</span></p>
+          <p>Button A: <span id="a-input">X</span></p>
+          <p>Button B: <span id="b-input">Z</span></p>
+          <p>Start: <span id="start-input">A</span></p>
+          <p>Select: <span id="select-input">S</span></p>
         </div>
       <input id="BP" type="button" value="Pause" disabled/>
       <input id="BST" type="button" value="Step" onclick="gb_Step();"/>
