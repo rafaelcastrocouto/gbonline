@@ -191,7 +191,8 @@ function scrollBar(parent,onchange) {
             if(opt.handle === "") {
                 var $drag = $(this).addClass('draggable');
             } else {
-                var $drag = $(this).addClass('active-handle').parent().addClass('draggable');
+                $(this).addClass('active-handle')
+                var $drag = $(this).closest('.drag').addClass('draggable');
             }
             var z_idx = $drag.css('z-index'),
                 drg_h = $drag.outerHeight(),
@@ -3212,7 +3213,7 @@ var gbFrames  = 0;
 function gb_Resize_LCD(zoom) {
   var t = function(s){
     var r = s - 1;
-    return  '#gameboy { '+
+    return  '#container { '+
       'transform: translateX('+130*r+'px) translateY('+230*r+'px) scale('+s+'); '+
       '-webkit-transform: translateX('+130*r+'px) translateY('+230*r+'px) scale('+s+'); '+
       '-moz-transform: translateX('+130*r+'px) translateY('+230*r+'px) scale('+s+'); '+
@@ -3237,12 +3238,27 @@ function gb_Toggle_Debugger(show) {
 }
 
 var customKeyId = 0;
+var gbColor = ['#ADB6B3', '#BEC2C1'];
+function changeGbColor(c1,c2){
+  $('#gameboy').css({
+    'background-image': 'linear-gradient( '+c1+', '+c2+' 50%)'
+  });
+}
 
 window.onload = function() {  
   gb_Insert_Cartridge($('.cartridge').first().attr('value'), false);  
   gb_Toggle_Debugger(ID('TOGGLE_DEBUGGER').checked);
   gb_Run();
-  
+  $('.color').minicolors({
+    position: 'top left',
+    opacity: true,
+    change: function(hex, opacity){
+      var rgba = $(this).minicolors('rgbaString');
+      if(this.id =='top') gbColor[0] = rgba;
+      if(this.id =='bot') gbColor[1] = rgba;
+      changeGbColor(gbColor[0], gbColor[1]);
+    }
+  });
   IBp.on('click', function(){
     if(customKeyId) {
       customKeyId = 0;
@@ -3263,14 +3279,12 @@ window.onload = function() {
     gb_Insert_Cartridge(t.attr('value'), true);
     $('.game-list').scrollTop(0).prepend(t);
   });
-  $('.container').drags({handle:'.reflex'});
-  $('.ui').drags({handle:'.handle'});
+  $('.drag').drags({handle:'.handle'});
   var h = cartridge.height()/2;
   $('.game-list').scroll(function() {
     this.scrollTop = parseInt(this.scrollTop / h) * h;
   });
   setTimeout(function(){
-    //ID('load').style['display'] = 'none';
     ID('BP').disabled = 0;
     ID('BX').disabled = 0;
     

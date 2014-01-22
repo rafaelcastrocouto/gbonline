@@ -97,14 +97,13 @@ body, input, select {
   margin-left: 30px;
 }
 
-.container {
+#container {
   position: relative;
   float: left;
   height: 500px;
   width: 324px;  
 }  
 #gameboy {    
-  transition: transform 0.4s;
   position: absolute;
   width: 265px;
   height: 433px;
@@ -115,11 +114,11 @@ body, input, select {
   background-image: linear-gradient( #ADB6B3, #BEC2C1 50%);
   box-shadow: 5px 6px 20px rgba(0, 0, 0, 0.37),
     -21px 17px 65px rgba(0, 0, 0, 0.46),
-    inset -3px 0 4px #8E918E,
-    inset -7px 0 7px #DFDFDF,
-    inset 1px 0 3px #66696A,
-    inset 3px 0 10px #616465,
-    inset 0 3px 7px #919496,
+    inset -3px 0 4px rgba(0,0,0,0.3),
+    inset -7px 0 7px rgba(255,255,255,0.3), 
+    inset 1px 0 3px rgba(0,0,0,0.1),
+    inset 3px 0 10px rgba(0,0,0,0.3),
+    inset 0 3px 7px rgba(0,0,0,0.5),
     inset 0 4px 10px white;
   animation: gameboyAnim 5s;
   opacity: 1;
@@ -130,7 +129,7 @@ body, input, select {
   0% {
     opacity: 0;
   }
-  90% {
+  65% {
     opacity: 0;
   }  
   100% {
@@ -138,17 +137,28 @@ body, input, select {
   }
 }
 
-#DEBUGGER, #STATUS, #TOGGLE_DEBUGGER, #TOGGLE_DEBUGGER_LABEL, #BST, #BS {
+#ui #DEBUGGER,
+#ui #STATUS,
+#ui #TOGGLE_DEBUGGER,
+#ui #TOGGLE_DEBUGGER_LABEL,
+#ui #BST,
+#ui #BS {
   display: none;
 }
 
-.ui {
+#ui {
   color: white;
   text-shadow: 0 1px 1px black;
   box-shadow: 0 0 20px rgba(255,255,255,0.2);
+  float: left;
+  border-radius: 0.5em 0.5em 3em 0.5em;
+  background: rgba(0,0,0,0.3);
+  display: inline-block;
+  padding: 1em;
+  margin: 1em;
 }
 
-.ui input, .ui b {
+#ui input, #ui b {
   display: block;
   padding: 4px;
 }
@@ -160,12 +170,12 @@ b.handle {
   line-height: 10px;
   text-shadow: 1px -1px 0 #fff;
 }
-.ui b {
+#ui b {
   font-family: 'Squada One';
   font-size: 22px;
 }
 
-.ui input {
+#ui input {
   width: 13em;
 }
 
@@ -180,8 +190,12 @@ b.handle {
   padding: 2px;
 }
 
+#IB > p:hover {
+  color: #fbb;
+}
+
 #IB > p.press {
-  color: red;
+  color: #f44;
 }
 
 #load {
@@ -189,7 +203,7 @@ b.handle {
   width: 130px;
   height: 220px;
   top: 120px; left: 100px;
-  transform: scale(2.13);
+  transform: scale(2.1);
   animation: loadAnim 5s;
   z-index: 0;
 }
@@ -212,7 +226,7 @@ b.handle {
   width: 16px;
   height: 5px;
   position: absolute;
-  left: 30px;
+  left: 31px;
   top: -6px;
 }
 
@@ -330,8 +344,7 @@ b.handle {
   left: 179px;
   padding: 6px;
   border-radius: 50px;
-  box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.21), 
-    -1px -1px 0px #BABDBC, 
+  box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.21),  
     inset 0 12px 22px rgba(0, 0, 0, 0.12);
   transform: rotate(64deg);
 }
@@ -417,8 +430,8 @@ b.handle {
   width: 93px;
   height: 93px;
   border-radius: 50%;
-  box-shadow: inset -7px 10px 22px #C7CBCA, 
-    inset 7px -10px 22px #B8B8B8;
+  box-shadow: inset -7px 10px 22px rgba(255,255,255,0.3), 
+    inset 7px -10px 22px rgba(0,0,0,0.3);
 }
 .stick ul {
   cursor: pointer;
@@ -591,15 +604,6 @@ b.handle {
   border: none;
 }
 
-.ui {
-  float: left;
-  border-radius: 0.5em 0.5em 3em 0.5em;
-  background: rgba(0,0,0,0.3);
-  display: inline-block;
-  padding: 1em;
-  margin: 1em;
-}
-
 
 #back {
   position: absolute;
@@ -607,8 +611,8 @@ b.handle {
   background-color: #c1bdb7;
   animation: backAnim 5s;
   height: 206px;
-  width: 125px;
-  border-radius: 3px 3px 35px 3px;  
+  width: 126px;
+  border-radius: 4px 4px 35px 4px;  
 }
 
 @keyframes backAnim {
@@ -718,7 +722,7 @@ b.handle {
   border-radius: 3px 3px 35px 3px;
   animation: borderAnim 5s;
   height: 198px;
-  width: 117px;
+  width: 118px;
   border: 2px solid #646060;  
 }
 
@@ -827,7 +831,7 @@ b.handle {
   height: 22px;
   width: 22px;
   bottom: 77px;
-  left: 45px;  
+  left: 52px;  
 }
 
 @keyframes chipAnim {
@@ -840,14 +844,14 @@ b.handle {
     height: 4px;
     width: 4px;
     bottom: 86px;
-    left: 54px;
+    left: 58px;
   }
   
   20%, 100% {
     height: 22px;
     width: 22px;
     bottom: 77px;
-    left: 45px;
+    left: 52px;
   }
 }
 
@@ -975,7 +979,7 @@ b.handle {
 
 #chipPinL {
   position: absolute;
-  left: 43px;
+  left: 50px;
   bottom: 94px;
   width: 4px;
   height: 2px;
@@ -1006,7 +1010,7 @@ b.handle {
 
 #chipPinR {
   position: absolute;
-  left: 65px;
+  left: 72px;
   bottom: 94px;
   width: 4px;
   height: 2px;
@@ -1147,16 +1151,15 @@ b.handle {
 
 #buttonsABBack {
   position: absolute;
-  left: 70px;
-  bottom: 58px;
-  width: 50px;
-  height: 22px;
+  left: 74px;
+  bottom: 59px;
+  width: 43px;
+  height: 20px;
   border-radius: 11px;
   background-color: #dddddd;
   box-shadow: inset 0px 0px 0px 2px #a9a9a9;
-  transform: rotate(152deg);
+  transform: rotate(154deg);
   animation: buttonsABBackAnim 5s;
-  box-shadow: inset 0px 0px 0px 2px #a9a9a9;
 }
 
 @keyframes buttonsABBackAnim {
@@ -1169,11 +1172,11 @@ b.handle {
   }
   
   29% {
-    left: 70px;
-    bottom: 58px;
-    width: 50px;
-    height: 22px;
-    transform: rotate(152deg);
+    left: 74px;
+    bottom: 59px;
+    width: 43px;
+    height: 20px;
+    transform: rotate(154deg);
   }
   
   33%, 100% {
@@ -1184,10 +1187,10 @@ b.handle {
 #buttonsAB {
   position: absolute;
   left: 78px;
-  bottom: 58px;
+  bottom: 57px;
   width: 14px;
   height: 14px;
-  border-radius: 11px;
+  border-radius: 50%;
   background-color: #484848;
   box-shadow: 20px -10px #484848;
   animation: buttonsABAnim 5s;
@@ -1204,7 +1207,7 @@ b.handle {
   
   33%, 100% {
     left: 78px;
-    bottom: 58px;
+    bottom: 57px;
     width: 14px;
     height: 14px;
     box-shadow: 20px -10px #484848;
@@ -1216,7 +1219,7 @@ b.handle {
   background-color: #dddddd;
   animation: buttonsSSBackAnim 5s;
   left: 34px;
-  bottom: 30px;
+  bottom: 28px;
   width: 40px;
   height: 14px;  
 }
@@ -1231,7 +1234,7 @@ b.handle {
   
   33%, 100% {
     left: 34px;
-    bottom: 30px;
+    bottom: 28px;
     width: 40px;
     height: 14px;
   }
@@ -1241,10 +1244,10 @@ b.handle {
   position: absolute;
   border-radius: 2px;
   background-color: #484848;
-  transform: rotate(152deg);
+  transform: rotate(153deg);
   animation: buttonsSSAnim 5s;
   left: 58px;
-  bottom: 35px;
+  bottom: 33px;
   width: 14px;
   height: 4px;
   box-shadow: 20px 10px #484848;
@@ -1253,7 +1256,7 @@ b.handle {
 @keyframes buttonsSSAnim {
   0%, 34% {
     left: 52px;
-    bottom: 31px;
+    bottom: 30px;
     width: 0px;
     height: 0px;
     box-shadow: 10px 10px #484848;
@@ -1261,7 +1264,7 @@ b.handle {
   
   49%, 100% {
     left: 58px;
-    bottom: 35px;
+    bottom: 33px;
     width: 14px;
     height: 4px;
     box-shadow: 20px 10px #484848;
@@ -1452,6 +1455,7 @@ b.handle {
   height: 206px;
   width: 125px;
   bottom: 0px;  
+  opacity: 0;
 }
 
 @keyframes boxAnim {
@@ -1459,12 +1463,17 @@ b.handle {
     height: 0px;
     width: 125px;
     bottom: 206px;
+    opacity: 1;
   }
   
-  80%, 100% {
+  80%, 99% {
     height: 206px;
     width: 125px;
     bottom: 0px;
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 
@@ -1473,10 +1482,9 @@ b.handle {
   background-color: #494949;
   width: 15px;
   height: 9px;
-  left: 6px;
+  left: 10px;
   bottom: 197px;
   animation: powerBackAnim 5s;
-  height: 9px;
 }
 
 @keyframes powerBackAnim {
@@ -1503,18 +1511,18 @@ b.handle {
 @keyframes powerAnim {
   0%, 42% {
     visibility: hidden;
-    left: 9px;
+    left: 12px;
     bottom: 197px;
   }
   
   43% {
     visibility: yes;
-    left: 9px;
+    left: 12px;
     bottom: 197px;
   }
   
   46%, 90% {
-    left: 9px;
+    left: 12px;
     bottom: 202px;
   }
   
@@ -1526,14 +1534,14 @@ b.handle {
 
 #powerLed {
   position: absolute;
-  background-color: #444;
+  background-color: #ddd;
   border-radius: 2px;
   animation: powerLedAnim 5s;
   background-color: red;
   width: 5px;
   height: 5px;
-  left: 14px;
-  bottom: 154px; 
+  left: 13.5px;
+  bottom: 154.5px; 
 }
 
 @keyframes powerLedAnim {

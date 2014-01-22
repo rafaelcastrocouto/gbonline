@@ -7,10 +7,11 @@
     <meta http-equiv="content-script-type" content="text/javascript" />    
     <meta http-equiv="content-style-type" content="text/css" />
     <link href="style.css" rel="stylesheet" type="text/css" /> 
+    <link href="jquery.minicolors.css" rel="stylesheet" type="text/css" /> 
     <style id="gbstyle"> #gameboy { transform: scale(1); } </style>
   </head>
   <body>    
-    <div class="ui">
+    <div id="ui" class="drag">
       <b class="handle">+</b>
       <b>Games</b>
       <div class="game-list">
@@ -53,8 +54,11 @@
       <label id="TOGGLE_DEBUGGER_LABEL" for="TOGGLE_DEBUGGER">debugger</label>
       <div id="DEBUGGER"></div>
       <div id="DEBUG">&nbsp;</div>
+      <b>Colors</b>
+      Top: <input type="hidden" id="top" data-opacity="1" class="color" value="#ADB6B3">
+      Bottom: <input type="hidden" id="bot" data-opacity="1" class="color" value="#BEC2C1">
     </div>    
-    <div class="container">           
+    <div id="container" class="drag">           
       <div id="gameboy">
         <div class="power"></div>
         <hr class="l-1">
@@ -66,7 +70,7 @@
         <hr class="l-7">
         <hr class="l-8">
         <p>dot matrix whith stereo sound</p>
-        <div class="reflex">
+        <div class="reflex handle">
           <div class="LCDdisplay"></div>
           <canvas id="LCD" width="160" height="144"></canvas>
           <span class="diod"></span>   
@@ -124,6 +128,7 @@
     </div>    
     <script src="prefixfree.min.js"></script>
     <script src="jquery.js"></script>
+    <script src="jquery.minicolors.js"></script>
     <script src="emulator.js"></script>    
   </body>
 </html>
