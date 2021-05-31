@@ -1,6 +1,6 @@
 # GBOnline
 
-[Play GameBoy Online](http://rafaelcastrocouto.github.com/gbonline "Play")
+[Play GameBoy Online](https://rafaelcastrocouto.github.io/gbonline/ "Play")
 
 ============
 
